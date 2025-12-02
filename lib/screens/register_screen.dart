@@ -1,6 +1,6 @@
+import 'package:classlog/theme/colors.dart';
+import 'package:classlog/theme/settings.dart';
 import 'package:flutter/material.dart';
-// import 'package:classlog/theme/settings.dart';
-// import 'package:classlog/widgets/role_toggle_btn.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -44,6 +44,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Theme.of(context).colorScheme.primary);
+    return GestureDetector(
+      onTap: FocusScope.of(context).unfocus,
+      child: Scaffold(
+        backgroundColor: bgLightColor,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Gaps.lg),
+          ),
+        ),
+      ),
+    );
   }
 }

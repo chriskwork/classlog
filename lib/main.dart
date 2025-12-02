@@ -1,4 +1,5 @@
-import 'package:classlog/screens/login_screen.dart';
+// import 'package:classlog/screens/login_screen.dart';
+import 'package:classlog/screens/register_screen.dart';
 import 'package:classlog/theme/theme_style.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class ClassLogApp extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ))),
-      home: LoginScreen(),
+      home: RegisterScreen(),
     );
   }
 }
