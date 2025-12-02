@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   debugPrint(
                                     'password: ${_passwordController.text}',
                                   );
-                                  // TODO: login
+                                  // login logis here ###########
                                 }
                               },
                               child: const Text(
@@ -168,7 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: Sizes.size32), // ✅ 수정
         child: Text(
