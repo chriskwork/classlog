@@ -15,9 +15,20 @@ class ClassLogApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ClassLog',
       theme: ThemeData(
-        colorScheme: appColorScheme(),
-        textTheme: appTextTheme(),
-      ),
+          colorScheme: appColorScheme(),
+          textTheme: appTextTheme(),
+          filledButtonTheme: FilledButtonThemeData(
+              style: FilledButton.styleFrom(
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ))),
       home: LoginScreen(),
     );
   }

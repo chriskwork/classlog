@@ -4,41 +4,41 @@ import 'package:google_fonts/google_fonts.dart';
 
 TextTheme appTextTheme() {
   return TextTheme(
-    displaySmall: GoogleFonts.poppins(
+    displaySmall: GoogleFonts.lexend(
       fontSize: 32,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       letterSpacing: -1,
     ),
-    headlineLarge: GoogleFonts.poppins(
+    headlineLarge: GoogleFonts.lexend(
       fontSize: 28,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       letterSpacing: -1,
     ),
-    headlineMedium: GoogleFonts.poppins(
+    headlineMedium: GoogleFonts.lexend(
       fontSize: 24,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       letterSpacing: -1,
     ),
-    headlineSmall: GoogleFonts.poppins(
-      fontSize: 20,
-      fontWeight: FontWeight.w500,
+    headlineSmall: GoogleFonts.lexend(
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
       letterSpacing: -1,
     ),
-    titleLarge: GoogleFonts.poppins(
+    titleLarge: GoogleFonts.lexend(
       fontSize: 18,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       letterSpacing: -1,
     ),
-    titleSmall: GoogleFonts.poppins(
+    titleSmall: GoogleFonts.lexend(
       fontSize: 16,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       letterSpacing: -1,
     ),
-    bodyLarge: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w400),
-    bodyMedium: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400),
-    bodySmall: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
-    labelLarge: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
-    labelSmall: GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w400),
+    bodyLarge: GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w400),
+    bodyMedium: GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400),
+    bodySmall: GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w400),
+    labelLarge: GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w400),
+    labelSmall: GoogleFonts.lexend(fontSize: 10, fontWeight: FontWeight.w400),
   );
 }
 
@@ -46,15 +46,13 @@ ColorScheme appColorScheme() {
   return ColorScheme(
     brightness: Brightness.light,
     primary: mainColor,
-    onPrimary: mainDarkColor,
-    secondary: examColor,
-    onSecondary: examStrongColor,
-    tertiary: autoEvalColor,
-    onTertiary: autoEvalStrongColor,
-    error: pointRedColor,
-    onError: pointRedColor,
-    surface: bgColor,
-    onSurface: textColor,
+    onPrimary: mainLightColor,
+    secondary: secondaryColor,
+    onSecondary: subSecondaryColor,
+    error: dangercolor,
+    onError: subDangercolor,
+    surface: textSecondaryColor,
+    onSurface: textPrimaryColor,
     outline: lineColor,
     shadow: shadowColor,
   );
