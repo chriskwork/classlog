@@ -1,4 +1,3 @@
-import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/settings.dart';
 import 'package:classlog/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +58,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             fontSize: 20,
           ),
         ),
-        backgroundColor: bgLightColor,
       ),
       body: GestureDetector(
         onTap: FocusScope.of(context).unfocus,

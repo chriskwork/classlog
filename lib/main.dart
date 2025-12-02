@@ -20,6 +20,9 @@ class ClassLogApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: appColorScheme(),
           textTheme: appTextTheme(),
+          appBarTheme: AppBarThemeData(
+            backgroundColor: bgLightColor,
+          ),
           scaffoldBackgroundColor: bgLightColor,
           filledButtonTheme: FilledButtonThemeData(
               style: FilledButton.styleFrom(
