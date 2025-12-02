@@ -45,26 +45,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: FocusScope.of(context).unfocus,
-      child: Scaffold(
-        backgroundColor: bgLightColor,
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.chevron_left_rounded),
-          ),
-          title: Text(
-            'Registrar',
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          backgroundColor: bgLightColor,
+    return Scaffold(
+      backgroundColor: bgLightColor,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.chevron_left_rounded),
         ),
-        body: SingleChildScrollView(
+        title: Text(
+          'Registrar',
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        backgroundColor: bgLightColor,
+      ),
+      body: GestureDetector(
+        onTap: FocusScope.of(context).unfocus,
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(Gaps.lg),
             child: Column(
