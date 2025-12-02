@@ -7,32 +7,32 @@ TextTheme appTextTheme() {
     displaySmall: GoogleFonts.lexend(
       fontSize: 32,
       fontWeight: FontWeight.w600,
-      letterSpacing: -1,
+      letterSpacing: -0.4,
     ),
     headlineLarge: GoogleFonts.lexend(
       fontSize: 28,
       fontWeight: FontWeight.w600,
-      letterSpacing: -1,
+      letterSpacing: -0.4,
     ),
     headlineMedium: GoogleFonts.lexend(
       fontSize: 24,
       fontWeight: FontWeight.w600,
-      letterSpacing: -1,
+      letterSpacing: -0.4,
     ),
     headlineSmall: GoogleFonts.lexend(
       fontSize: 22,
       fontWeight: FontWeight.w600,
-      letterSpacing: -1,
+      letterSpacing: -0.4,
     ),
     titleLarge: GoogleFonts.lexend(
       fontSize: 18,
       fontWeight: FontWeight.w600,
-      letterSpacing: -1,
+      letterSpacing: -0.4,
     ),
     titleSmall: GoogleFonts.lexend(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-      letterSpacing: -1,
+      letterSpacing: -0.4,
     ),
     bodyLarge: GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w400),
     bodyMedium: GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400),
