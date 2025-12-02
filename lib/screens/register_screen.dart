@@ -108,6 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                             return null;
                           },
+                          isPassword: true,
                         ),
 
                         // Confirmar Password
@@ -124,7 +125,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                             return null;
                           },
+                          isPassword: true,
                         ),
+
                         SizedBox(
                           height: Sizes.size4,
                         ),
@@ -148,39 +151,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               }
                             },
                             child: const Text(
-                              'Iniciar sesión',
+                              'Registrar',
                             ),
                           ),
-                        ),
-
-                        SizedBox(
-                          height: Sizes.size4,
-                        ),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('¿No tienes cuenta?'),
-                            const SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => RegisterScreen(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Regístrate',
-                                style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),
