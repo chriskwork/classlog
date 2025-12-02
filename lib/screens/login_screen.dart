@@ -1,3 +1,4 @@
+import 'package:classlog/screens/home_screen.dart';
 import 'package:classlog/screens/register_screen.dart';
 import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/settings.dart';
@@ -28,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgLightColor,
       body: GestureDetector(
         onTap: FocusScope.of(context).unfocus,
         child: SafeArea(
@@ -123,6 +123,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   );
                                   // login logis here ###########
                                 }
+
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
                               },
                               child: const Text(
                                 'Iniciar sesión',

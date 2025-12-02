@@ -1,5 +1,6 @@
 // import 'package:classlog/screens/login_screen.dart';
 import 'package:classlog/screens/login_screen.dart';
+import 'package:classlog/theme/colors.dart';
 // import 'package:classlog/screens/register_screen.dart';
 import 'package:classlog/theme/theme_style.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class ClassLogApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: appColorScheme(),
           textTheme: appTextTheme(),
+          scaffoldBackgroundColor: bgLightColor,
           filledButtonTheme: FilledButtonThemeData(
               style: FilledButton.styleFrom(
             foregroundColor: Colors.white,
