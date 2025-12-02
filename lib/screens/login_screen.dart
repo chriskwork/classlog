@@ -69,12 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
+                          obscureText: false,
                         ),
 
                         // Password
                         CustomFormField(
-                          labelText: 'Contraseña(Más de 6 caracteres)',
+                          labelText: 'Contraseña',
                           controller: _passwordController,
+                          obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Contraseña requerida';
@@ -84,6 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
+                          isPassword: true,
                         ),
                         SizedBox(
                           height: Sizes.size4,
