@@ -21,7 +21,14 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(Gaps.lg),
-        child: Text('go login page'),
+        child: Column(
+          children: [
+            Text(
+              'Clases de Hoy',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ],
+        ),
       ),
     );
   }
