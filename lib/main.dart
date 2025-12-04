@@ -16,14 +16,14 @@ class ClassLogApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ClassLog',
       theme: ThemeData(
-          colorScheme: appColorScheme(),
-          textTheme: appTextTheme(),
-          appBarTheme: AppBarThemeData(
-            backgroundColor: bgLightColor,
-          ),
-          scaffoldBackgroundColor: bgLightColor,
-          filledButtonTheme: FilledButtonThemeData(
-              style: FilledButton.styleFrom(
+        colorScheme: appColorScheme(),
+        textTheme: appTextTheme(),
+        appBarTheme: AppBarThemeData(
+          backgroundColor: bgLightColor,
+        ),
+        scaffoldBackgroundColor: bgLightColor,
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
             foregroundColor: Colors.white,
             padding: EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(
@@ -33,7 +33,9 @@ class ClassLogApp extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
-          ))),
+          ),
+        ),
+      ),
       home: LoginScreen(),
     );
   }
