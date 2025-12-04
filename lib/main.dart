@@ -1,7 +1,5 @@
-// import 'package:classlog/screens/login_screen.dart';
 import 'package:classlog/screens/login_screen.dart';
 import 'package:classlog/theme/colors.dart';
-// import 'package:classlog/screens/register_screen.dart';
 import 'package:classlog/theme/theme_style.dart';
 import 'package:flutter/material.dart';
 

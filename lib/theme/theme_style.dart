@@ -25,6 +25,11 @@ TextTheme appTextTheme() {
       letterSpacing: -0.4,
     ),
     titleLarge: GoogleFonts.lexend(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.4,
+    ),
+    titleMedium: GoogleFonts.lexend(
       fontSize: 18,
       fontWeight: FontWeight.w600,
       letterSpacing: -0.4,
@@ -37,7 +42,8 @@ TextTheme appTextTheme() {
     bodyLarge: GoogleFonts.lexend(fontSize: 16, fontWeight: FontWeight.w400),
     bodyMedium: GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400),
     bodySmall: GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w400),
-    labelLarge: GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w400),
+    labelLarge: GoogleFonts.lexend(fontSize: 14, fontWeight: FontWeight.w400),
+    labelMedium: GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w400),
     labelSmall: GoogleFonts.lexend(fontSize: 10, fontWeight: FontWeight.w400),
   );
 }
