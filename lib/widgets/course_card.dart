@@ -64,9 +64,11 @@ class CourseCard extends StatelessWidget {
         ),
         DecoratedBox(
           decoration: BoxDecoration(
-            color: status == "Presente"
-                ? Colors.greenAccent[100]
-                : Colors.grey[200],
+            color: switch (status) {
+              "Presente" => Colors.greenAccent[100],
+              "Ausencia" => Colors.red[200],
+              _ => Colors.grey[200],
+            },
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
