@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Sizes {
   static const double size4 = 4;
   static const double size8 = 8;
@@ -21,4 +23,7 @@ class Gaps {
   static const double md = 16;
   static const double lg = 24;
   static const double xl = 32;
+
+  static const szBoxV10 = SizedBox(height: 10);
+  static const szBoxH10 = SizedBox(width: 10);
 }
