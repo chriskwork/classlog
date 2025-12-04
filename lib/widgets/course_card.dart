@@ -46,13 +46,13 @@ class CourseCard extends StatelessWidget {
             children: [
               Text(
                 courseName, // DB - class title
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.bodyMedium,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
               Text(
                 time, // DB - time here
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: secondaryColor,
                     ),
               ),
