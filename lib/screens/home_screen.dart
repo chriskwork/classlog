@@ -1,5 +1,6 @@
 import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/settings.dart';
+import 'package:classlog/widgets/constants/app_decorations.dart';
 import 'package:classlog/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
@@ -39,25 +40,15 @@ class HomeScreen extends StatelessWidget {
               'Clases de Hoy',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            SizedBox(
-              height: 10,
-            ),
+            Gaps.szBoxV10,
             SizedBox(
               width: double.infinity,
               child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: cardBgColor,
-                  border: BoxBorder.all(
-                    width: 1,
-                    color: lineColor,
-                  ),
-                  borderRadius: BorderRadius.circular(Sizes.size8),
-                ),
+                decoration: AppDecorations.card,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.size12, vertical: Sizes.size20),
+                  padding: const EdgeInsets.all(Sizes.size16),
                   child: Column(
-                    spacing: 16,
+                    spacing: Sizes.size16,
                     children: [
                       CourseCard(
                         courseName: 'Desarrollo de Interfaces',
@@ -80,6 +71,51 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Gaps.szBoxV20,
+            SizedBox(
+              width: double.infinity,
+              child: DecoratedBox(
+                decoration: AppDecorations.card,
+                child: Padding(
+                  padding: const EdgeInsets.all(Sizes.size16),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '% de Asistencia',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              Text(
+                                'Período Actual',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: secondaryColor,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.calendar_today_rounded,
+                              color: mainColor,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
