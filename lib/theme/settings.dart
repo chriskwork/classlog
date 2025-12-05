@@ -25,5 +25,7 @@ class Gaps {
   static const double xl = 32;
 
   static const szBoxV10 = SizedBox(height: 10);
+  static const szBoxV20 = SizedBox(height: 20);
+
   static const szBoxH10 = SizedBox(width: 10);
 }
