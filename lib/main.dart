@@ -19,6 +19,7 @@ class ClassLogApp extends StatelessWidget {
         colorScheme: appColorScheme(),
         textTheme: appTextTheme(),
         appBarTheme: AppBarThemeData(
+          centerTitle: true,
           backgroundColor: bgLightColor,
         ),
         scaffoldBackgroundColor: bgLightColor,
