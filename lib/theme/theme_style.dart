@@ -42,17 +42,14 @@ TextTheme appTextTheme() {
     bodyLarge: GoogleFonts.lexend(
       fontSize: 18,
       fontWeight: FontWeight.w400,
-      letterSpacing: -0.2,
     ),
     bodyMedium: GoogleFonts.lexend(
       fontSize: 16,
       fontWeight: FontWeight.w400,
-      letterSpacing: -0.2,
     ),
     bodySmall: GoogleFonts.lexend(
       fontSize: 14,
       fontWeight: FontWeight.w400,
-      letterSpacing: -0.2,
     ),
     labelLarge: GoogleFonts.lexend(fontSize: 12, fontWeight: FontWeight.w400),
     labelMedium: GoogleFonts.lexend(fontSize: 10, fontWeight: FontWeight.w400),
