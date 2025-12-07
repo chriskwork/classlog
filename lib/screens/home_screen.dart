@@ -5,8 +5,15 @@ import 'package:classlog/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
 // Dashboard page
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +178,7 @@ class HomeScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(Sizes.size16),
                     child: Column(
+                      spacing: Sizes.size16,
                       // TODO -> change to ListView
                       children: [
                         Row(
@@ -244,7 +252,43 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      // bottomNavigationBar: , // TODO: bottom bar
+      bottomNavigationBar: BottomNavigationBar(
+          // FIXME: I think I'll make a custom bot navBar..
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: mainColor,
+          unselectedItemColor: mainLightColor,
+          selectedItemColor: Colors.white,
+          iconSize: 20,
+          selectedLabelStyle: TextStyle(
+            fontSize: 10,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: 10,
+          ),
+          currentIndex: _currentIndex,
+          onTap: (index) => setState(() => _currentIndex = index),
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_rounded,
+                ),
+                label: "Inicio"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.calendar_today_rounded,
+                ),
+                label: "Calendario"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.book_outlined,
+                ),
+                label: "Mis cursos"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.settings_input_component,
+                ),
+                label: "Configuración"),
+          ]),
     );
   }
 }
