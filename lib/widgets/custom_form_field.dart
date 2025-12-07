@@ -1,14 +1,13 @@
 import 'package:classlog/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/fa.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class CustomFormField extends StatefulWidget {
   final String labelText;
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
-  final Iconify? suffixIcon;
+  final IconData? suffixIcon;
   final bool isPassword;
 
   const CustomFormField({
@@ -66,11 +65,17 @@ class _CustomFormFieldState extends State<CustomFormField> {
                         obscureText = !obscureText;
                       });
                     },
-                    icon: Iconify(
-                      obscureText ? Fa.eye : Fa.eye_slash,
-                      size: 18,
-                      color: textSecondaryColor,
-                    ),
+                    icon: obscureText
+                        ? Icon(
+                            FeatherIcons.eye,
+                            size: 18,
+                            color: textSecondaryColor,
+                          )
+                        : Icon(
+                            FeatherIcons.eyeOff,
+                            size: 18,
+                            color: textSecondaryColor,
+                          ),
                   )
                 : null,
           ),
