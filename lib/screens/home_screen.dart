@@ -89,26 +89,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget _getCurrentPage() {
-    switch (_currentIndex) {
-      case 0:
-        return const DashboardScreen();
-      // case 1:
-      //   return const CalendarScreen();
-      // case 2:
-      //   return const MyCoursesScreen();
-      // case 3:
-      //   return const SettingsScreen();
-      default:
-        return const HomeScreen();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _getAppBar(),
-        body: _getCurrentPage(),
+        body: IndexedStack(
+          index: _currentIndex,
+          children: const [
+            DashboardScreen(),
+            Center(child: Text('Calendario')),
+            Center(child: Text('Mis Cursos')),
+            Center(child: Text('Configuración')),
+          ],
+        ),
 
         // Bottom Navigation Bar
         bottomNavigationBar: CustomBottomNavBar(
