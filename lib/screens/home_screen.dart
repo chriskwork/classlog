@@ -1,6 +1,8 @@
+import 'package:classlog/screens/calendar_screen.dart';
 import 'package:classlog/screens/dashboard_screen.dart';
 import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/settings.dart';
+import 'package:classlog/widgets/constants/appbar_notification.dart';
 import 'package:classlog/widgets/constants/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -32,10 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: Gaps.md),
-              child: Icon(Icons.notifications_none_rounded),
-            ),
+            AppBarNotification(),
           ],
         );
       case 1:
@@ -47,10 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: Gaps.md),
-              child: Icon(Icons.notifications_none_rounded),
-            ),
+            AppBarNotification(),
           ],
         );
       case 2:
@@ -62,10 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: Gaps.md),
-              child: Icon(Icons.notifications_none_rounded),
-            ),
+            AppBarNotification(),
           ],
         );
       case 3:
@@ -77,10 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: Gaps.md),
-              child: Icon(Icons.notifications_none_rounded),
-            ),
+            AppBarNotification(),
           ],
         );
 
@@ -97,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
           index: _currentIndex,
           children: const [
             DashboardScreen(),
-            Center(child: Text('Calendario')),
+            CalendarScreen(),
             Center(child: Text('Mis Cursos')),
             Center(child: Text('Configuración')),
           ],
