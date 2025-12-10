@@ -16,3 +16,10 @@ const bgDarkColor = Color(0xff111121);
 const greyColor = Color(0xff9CA3AF);
 const lineColor = Color(0xffD9E0E8);
 const shadowColor = Color(0x05000000);
+
+class EventColors {
+  static const Color asistencia = Color(0xFF21C47A);
+  static const Color examen = Color(0xFF1045B7);
+  static const Color autoEval = Color(0xFFD139B8);
+  static const Color proyecto = Color(0xFF8A1EC9);
+}
