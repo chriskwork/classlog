@@ -44,7 +44,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
             _buildTagSelector(),
             SizedBox(height: Sizes.size8),
             _buildCalendar(),
-            const Divider(height: 1),
+            const Divider(
+              height: 40,
+              color: greyColor,
+            ),
             _buildEventList(),
           ],
         ),
@@ -133,7 +136,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       eventLoader: _getEventsForDay,
       startingDayOfWeek: StartingDayOfWeek.monday,
 
-      // 헤더 스타일
+      // Header
       headerStyle: const HeaderStyle(
         formatButtonVisible: false,
         titleCentered: true,
@@ -145,7 +148,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         rightChevronIcon: Icon(Icons.chevron_right, color: Colors.black),
       ),
 
-      // 요일 스타일
+      // Weeks
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle(
           color: Colors.grey.shade600,
@@ -159,7 +162,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
       ),
 
-      // 날짜 스타일
+      // Days
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle(color: Colors.grey.shade300),
@@ -192,7 +195,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         markerMargin: const EdgeInsets.symmetric(horizontal: 1),
       ),
 
-      // 마커 빌더 (점 표시)
+      // Dot markers
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, date, events) {
           if (events.isEmpty) return null;
@@ -275,7 +278,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       child: Row(
         children: [
-          // 아이콘
+          // Icon
           Container(
             width: 40,
             height: 40,
@@ -291,7 +294,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           const SizedBox(width: 12),
 
-          // 텍스트
+          // Text
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +319,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
 
-          // 상태 뱃지 (출석일 때만)
+          // Status badge(solo cuando asistancia)
           if (event.type == EventType.asistencia && event.status != null)
             _buildStatusBadge(event.status!),
         ],
