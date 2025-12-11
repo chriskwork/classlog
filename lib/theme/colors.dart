@@ -22,4 +22,9 @@ class EventColors {
   static const Color examen = Color(0xFF1045B7);
   static const Color autoEval = Color(0xFFD139B8);
   static const Color proyecto = Color(0xFF8A1EC9);
+
+  // Asistencia Status colors
+  static const Color statusPresente = Color(0xFF22C55E);
+  static const Color statusTarde = Color(0xFFF59E0B);
+  static const Color statusAusente = Color(0xFFEF4444);
 }
