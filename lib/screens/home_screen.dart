@@ -1,5 +1,6 @@
 import 'package:classlog/screens/calendar_screen.dart';
 import 'package:classlog/screens/dashboard_screen.dart';
+import 'package:classlog/screens/my_courses_screen.dart';
 import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/settings.dart';
 import 'package:classlog/widgets/constants/appbar_notification.dart';
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: const [
             DashboardScreen(),
             CalendarScreen(),
-            Center(child: Text('Mis Cursos')),
+            MyCoursesScreen(),
             Center(child: Text('Configuración')),
           ],
         ),

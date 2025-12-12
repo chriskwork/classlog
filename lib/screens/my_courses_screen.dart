@@ -2,8 +2,8 @@ import 'package:classlog/screens/course_detail_sheet.dart';
 import 'package:classlog/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
-class MisCursosScreen extends StatelessWidget {
-  const MisCursosScreen({super.key});
+class MyCoursesScreen extends StatelessWidget {
+  const MyCoursesScreen({super.key});
 
   // dummy data for UI
   final List<Map<String, dynamic>> _courses = const [
