@@ -10,6 +10,7 @@ class CourseCard extends StatelessWidget {
   final String time;
   final String? status;
   final VoidCallback? onTap;
+  final String? description;
 
   const CourseCard({
     super.key,
@@ -20,6 +21,7 @@ class CourseCard extends StatelessWidget {
     required this.iconColor,
     required this.iconBgColor,
     this.onTap,
+    this.description,
   });
 
   @override

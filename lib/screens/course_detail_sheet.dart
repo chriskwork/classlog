@@ -78,8 +78,13 @@ class CourseDetailSheet extends StatelessWidget {
                       ],
                     ),
 
+                    const SizedBox(height: 16),
+                    Text(course['description'] ?? "No data"),
                     const SizedBox(height: 24),
-                    const Divider(),
+
+                    const Divider(
+                      color: greyColor,
+                    ),
                     const SizedBox(height: 16),
 
                     // 정보 섹션
