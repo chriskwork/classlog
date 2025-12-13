@@ -13,6 +13,8 @@ final List<Map<String, dynamic>> courses = const [
     'profesor': 'María García',
     'aula': 'Aula 201',
     'asistencia': 0.92,
+    'description':
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in massa nec purus ultricies laoreet eu eu odio. Proin nibh velit, feugiat id nisi et, bibendum elementum felis. Etiam nunc nunc, malesuada nec molestie quis, posuere non metus. Donec ac nisl id arcu tincidunt aliquet ac nec justo. Donec vehicula consequat cursus. Duis justo ante, pharetra eget lectus auctor, mollis vestibulum lorem. Aliquam sit amet diam sem. Praesent vel felis felis. Nunc mattis nibh at odio eleifend scelerisque. Praesent sit amet dignissim lectus. Ut convallis hendrerit sapien, ut ultricies risus aliquet ut. Quisque fermentum nulla purus, bibendum congue nunc eleifend id. Sed consequat nec sapien nec laoreet.',
   },
   {
     'id': 2,
@@ -25,6 +27,8 @@ final List<Map<String, dynamic>> courses = const [
     'profesor': 'Carlos López',
     'aula': 'Aula 105',
     'asistencia': 0.85,
+    'description':
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in massa nec purus ultricies laoreet eu eu odio. Proin nibh velit, feugiat id nisi et, bibendum elementum felis. Etiam nunc nunc, malesuada nec molestie quis, posuere non metus. Donec ac nisl id arcu tincidunt aliquet ac nec justo. Donec vehicula consequat cursus. Duis justo ante, pharetra eget lectus auctor, mollis vestibulum lorem. Aliquam sit amet diam sem. Praesent vel felis felis. Nunc mattis nibh at odio eleifend scelerisque. Praesent sit amet dignissim lectus. Ut convallis hendrerit sapien, ut ultricies risus aliquet ut. Quisque fermentum nulla purus, bibendum congue nunc eleifend id. Sed consequat nec sapien nec laoreet.',
   },
   {
     'id': 3,
@@ -37,5 +41,7 @@ final List<Map<String, dynamic>> courses = const [
     'profesor': 'Ana Martínez',
     'aula': 'Aula 302',
     'asistencia': 0.78,
+    'description':
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in massa nec purus ultricies laoreet eu eu odio. Proin nibh velit, feugiat id nisi et, bibendum elementum felis. Etiam nunc nunc, malesuada nec molestie quis, posuere non metus. Donec ac nisl id arcu tincidunt aliquet ac nec justo. Donec vehicula consequat cursus. Duis justo ante, pharetra eget lectus auctor, mollis vestibulum lorem. Aliquam sit amet diam sem. Praesent vel felis felis. Nunc mattis nibh at odio eleifend scelerisque. Praesent sit amet dignissim lectus. Ut convallis hendrerit sapien, ut ultricies risus aliquet ut. Quisque fermentum nulla purus, bibendum congue nunc eleifend id. Sed consequat nec sapien nec laoreet.',
   },
 ];
