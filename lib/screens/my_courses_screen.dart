@@ -18,7 +18,9 @@ class MyCoursesScreen extends StatelessWidget {
         onTap: () => Navigator.pop(context),
         behavior: HitTestBehavior.opaque,
         child: GestureDetector(
-            onTap: () {}, child: CourseDetailSheet(course: course)),
+          onTap: () {},
+          child: CourseDetailSheet(course: course),
+        ),
       ),
     );
   }
