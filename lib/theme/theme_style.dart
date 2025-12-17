@@ -66,7 +66,7 @@ ColorScheme appColorScheme() {
     onSecondary: subSecondaryColor,
     error: dangercolor,
     onError: subDangercolor,
-    surface: textSecondaryColor,
+    surface: Colors.white,
     onSurface: textPrimaryColor,
     outline: lineColor,
     shadow: shadowColor,
