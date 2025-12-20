@@ -1,9 +1,10 @@
 // lib/widgets/course_detail_sheet.dart
+import 'package:classlog/screens/my_courses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:classlog/theme/colors.dart';
 
 class CourseDetailSheet extends StatelessWidget {
-  final Map<String, dynamic> course;
+  final Course course;
 
   const CourseDetailSheet({super.key, required this.course});
 
@@ -20,7 +21,6 @@ class CourseDetailSheet extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // 드래그 핸들
             Container(
               margin: const EdgeInsets.only(top: 12, bottom: 8),
               width: 40,
@@ -30,8 +30,6 @@ class CourseDetailSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-
-            // 스크롤 가능한 콘텐츠
             Expanded(
               child: SingleChildScrollView(
                 controller: scrollController,
@@ -39,18 +37,18 @@ class CourseDetailSheet extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 헤더: 아이콘 + 제목
+                    // Header
                     Row(
                       children: [
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: course['iconBgColor'],
+                            color: course.iconBgColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(
-                            course['icon'],
-                            color: course['iconColor'],
+                            course.icon,
+                            color: course.iconColor,
                             size: 32,
                           ),
                         ),
@@ -60,11 +58,11 @@ class CourseDetailSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                course['name'],
+                                course.name,
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                               Text(
-                                course['time'],
+                                course.time,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
@@ -79,7 +77,7 @@ class CourseDetailSheet extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 16),
-                    Text(course['description'] ?? "No data"),
+                    Text(course.description),
                     const SizedBox(height: 24),
 
                     const Divider(
@@ -89,12 +87,12 @@ class CourseDetailSheet extends StatelessWidget {
 
                     // 정보 섹션
                     _buildInfoRow(
-                        context, Icons.person, 'Profesor', course['profesor']),
+                        context, Icons.person, 'Profesor', course.profesor),
                     const SizedBox(height: 12),
-                    _buildInfoRow(context, Icons.room, 'Aula', course['aula']),
+                    _buildInfoRow(context, Icons.room, 'Aula', course.aula),
                     const SizedBox(height: 12),
                     _buildInfoRow(context, Icons.check_circle, 'Asistencia',
-                        '${(course['asistencia'] * 100).toInt()}%'),
+                        '${(course.asistencia * 100).toInt()}%'),
 
                     const SizedBox(height: 24),
 
@@ -105,12 +103,10 @@ class CourseDetailSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     LinearProgressIndicator(
-                      value: course['asistencia'],
+                      value: course.asistencia,
                       backgroundColor: Colors.grey[200],
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        course['asistencia'] >= 0.8
-                            ? Colors.green
-                            : Colors.orange,
+                        course.asistencia >= 0.8 ? Colors.green : Colors.orange,
                       ),
                       minHeight: 8,
                       borderRadius: BorderRadius.circular(4),

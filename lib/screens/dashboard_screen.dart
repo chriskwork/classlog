@@ -224,34 +224,75 @@ class DashboardScreen extends StatelessWidget {
 }
 
 // % graph de asistencia
-class CircularPercentage extends StatelessWidget {
+class CircularPercentage extends StatefulWidget {
   final int percentage;
   final double size;
+  final Duration duration;
 
   const CircularPercentage({
     super.key,
     required this.percentage,
     this.size = 80,
+    this.duration = const Duration(milliseconds: 1200),
   });
 
   @override
+  State<CircularPercentage> createState() => _CircularPercentageState();
+}
+
+class _CircularPercentageState extends State<CircularPercentage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<int> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration,
+      vsync: this,
+    );
+
+    _animation = IntTween(
+      begin: 0,
+      end: widget.percentage,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ));
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CustomPaint(
-        painter: _CircularPercentagePainter(percentage),
-        child: Center(
-          child: Text(
-            "$percentage",
-            style: TextStyle(
-              fontSize: size * 0.35,
-              fontWeight: FontWeight.bold,
-              color: mainColor,
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (BuildContext context, Widget? child) {
+        return SizedBox(
+          width: widget.size,
+          height: widget.size,
+          child: CustomPaint(
+            painter: _CircularPercentagePainter(_animation.value),
+            child: Center(
+              child: Text(
+                "${_animation.value}",
+                style: TextStyle(
+                  fontSize: widget.size * 0.35,
+                  fontWeight: FontWeight.bold,
+                  color: mainColor,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
