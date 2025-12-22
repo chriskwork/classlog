@@ -1,3 +1,5 @@
+import 'package:classlog/screens/config_edit_profile.dart';
+import 'package:classlog/screens/config_security.dart';
 import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/settings.dart';
 import 'package:flutter/material.dart';
@@ -91,13 +93,20 @@ class _ConfigScreenState extends State<ConfigScreen> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   visualDensity: VisualDensity.compact,
-                  leading: Icon(Icons.abc),
+                  leading: Icon(Icons.person_outline_rounded),
                   title: Text(
                     "Editar Perfil",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   trailing: Icon(Icons.chevron_right),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ConfigEditProfile(),
+                      ),
+                    );
+                  },
                 ),
 
                 const Divider(height: 1, color: lineColor),
@@ -106,13 +115,20 @@ class _ConfigScreenState extends State<ConfigScreen> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   visualDensity: VisualDensity.compact,
-                  leading: Icon(Icons.abc),
+                  leading: Icon(Icons.lock_outline_rounded),
                   title: Text(
                     "Seguridad",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   trailing: Icon(Icons.chevron_right),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ConfigSecurity(),
+                      ),
+                    );
+                  },
                 )
               ],
             ),
