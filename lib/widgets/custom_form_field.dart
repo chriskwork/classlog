@@ -29,7 +29,7 @@ class CustomFormField extends StatefulWidget {
 }
 
 class _CustomFormFieldState extends State<CustomFormField> {
-  bool obscureText = false; // ✅ 바로 초기화
+  bool obscureText = false;
 
   @override
   void initState() {
