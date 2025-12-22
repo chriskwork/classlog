@@ -166,14 +166,14 @@ class DaySelector extends StatelessWidget {
     final days = ['L', 'M', 'X', 'J', 'V'];
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.only(top: 20, left: Gaps.lg, right: Gaps.lg),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(days.length, (index) {
           final isSelected = index == selectedIndex;
           return GestureDetector(
