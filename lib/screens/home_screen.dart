@@ -7,7 +7,6 @@ import 'package:classlog/theme/settings.dart';
 import 'package:classlog/widgets/constants/appbar_notification.dart';
 import 'package:classlog/widgets/constants/bottom_navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 // Dashboard page
 class HomeScreen extends StatefulWidget {
@@ -41,39 +40,24 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       case 1:
         return AppBar(
-          leadingWidth: 60,
-          leading: Icon(FeatherIcons.arrowLeft),
           title: Text(
             'Calendario',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          actions: [
-            AppBarNotification(),
-          ],
         );
       case 2:
         return AppBar(
-          leadingWidth: 60,
-          leading: Icon(FeatherIcons.arrowLeft),
           title: Text(
             'Mis Cursos',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          actions: [
-            AppBarNotification(),
-          ],
         );
       case 3:
         return AppBar(
-          leadingWidth: 60,
-          leading: Icon(FeatherIcons.arrowLeft),
           title: Text(
             'Configuración',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          actions: [
-            AppBarNotification(),
-          ],
         );
 
       default:
