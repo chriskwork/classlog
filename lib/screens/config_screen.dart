@@ -139,16 +139,40 @@ class _ConfigScreenState extends State<ConfigScreen> {
           // Log out button
           SizedBox(
             width: double.infinity,
+            height: 40,
             child: OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 20),
                   side: BorderSide(width: 1, color: lineColor),
                   foregroundColor: textPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   )),
-              child: Text("Cerrar Sesión"),
+              child: Text(
+                "Cerrar Sesión",
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: Gaps.lg),
+          // Eliminate account
+          SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: FilledButton(
+              onPressed: () {},
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: Text(
+                "Eliminar Cuenta",
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
             ),
           ),
         ],

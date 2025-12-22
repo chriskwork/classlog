@@ -28,7 +28,7 @@ class _ConfigSecurityState extends State<ConfigSecurity> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Configuración"),
+          title: Text("Seguridad"),
         ),
         body: Padding(
             padding: const EdgeInsets.all(Gaps.lg),
@@ -78,7 +78,7 @@ class _ConfigSecurityState extends State<ConfigSecurity> {
                         // Confirmar Password
                         CustomFormField(
                           labelText: 'Confirmar Contraseña',
-                          controller: _passwordController,
+                          controller: _confirmPasswordController,
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -86,6 +86,9 @@ class _ConfigSecurityState extends State<ConfigSecurity> {
                             }
                             if (value.length < 6) {
                               return 'Mínimo 6 caracteres';
+                            }
+                            if (value != _passwordController.text) {
+                              return 'Las contraseñas no coinciden';
                             }
                             return null;
                           },
