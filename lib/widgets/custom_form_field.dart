@@ -1,5 +1,6 @@
 import 'package:classlog/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class CustomFormField extends StatefulWidget {
@@ -9,6 +10,7 @@ class CustomFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final IconData? suffixIcon;
   final bool isPassword;
+  final List<TextInputFormatter>? inputFomatters;
 
   const CustomFormField({
     super.key,
@@ -19,6 +21,7 @@ class CustomFormField extends StatefulWidget {
     this.suffixIcon,
     this.isPassword = false,
     required bool obscureText,
+    this.inputFomatters,
   });
 
   @override
@@ -52,6 +55,8 @@ class _CustomFormFieldState extends State<CustomFormField> {
         TextFormField(
           controller: widget.controller,
           obscureText: obscureText,
+          keyboardType: widget.keyboardType,
+          inputFormatters: widget.inputFomatters,
           decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderSide: const BorderSide(color: lineColor)),
@@ -79,7 +84,6 @@ class _CustomFormFieldState extends State<CustomFormField> {
                   )
                 : null,
           ),
-          keyboardType: TextInputType.emailAddress,
           validator: widget.validator,
         ),
       ],
