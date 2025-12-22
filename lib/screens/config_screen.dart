@@ -126,6 +126,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
             child: OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 20),
                   side: BorderSide(width: 1, color: lineColor),
                   foregroundColor: textPrimaryColor,
                   shape: RoundedRectangleBorder(
