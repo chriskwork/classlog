@@ -40,7 +40,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                   backgroundColor: Colors.white,
                   child: CircleAvatar(
                     radius: 56,
-                    backgroundImage: AssetImage('assets/profile.png'),
+                    // backgroundImage: AssetImage('assets/profile.png'),
                   ),
                 ),
               ),
@@ -52,7 +52,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: mainColor, // 파란색
+                    color: mainColor,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
                   ),
@@ -79,6 +79,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
 
           // Config options
           Card(
+            margin: EdgeInsets.all(0),
             shape: RoundedRectangleBorder(
               side: BorderSide(color: lineColor, width: 1.0),
               borderRadius: BorderRadius.circular(12),
@@ -88,8 +89,13 @@ class _ConfigScreenState extends State<ConfigScreen> {
               children: [
                 // Perfil
                 ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  visualDensity: VisualDensity.compact,
                   leading: Icon(Icons.abc),
-                  title: Text("Editar Perfil"),
+                  title: Text(
+                    "Editar Perfil",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {},
                 ),
@@ -98,14 +104,36 @@ class _ConfigScreenState extends State<ConfigScreen> {
 
                 // Seguridad
                 ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  visualDensity: VisualDensity.compact,
                   leading: Icon(Icons.abc),
-                  title: Text("Seguridad"),
+                  title: Text(
+                    "Seguridad",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {},
                 )
               ],
             ),
-          )
+          ),
+
+          const SizedBox(height: 40),
+
+          // Log out button
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                  side: BorderSide(width: 1, color: lineColor),
+                  foregroundColor: textPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  )),
+              child: Text("Cerrar Sesión"),
+            ),
+          ),
         ],
       ),
     );
