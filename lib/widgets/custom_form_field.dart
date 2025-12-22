@@ -46,7 +46,6 @@ class _CustomFormFieldState extends State<CustomFormField> {
           widget.labelText,
           style: TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w600,
           ),
         ),
         SizedBox(
