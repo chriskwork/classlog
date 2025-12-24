@@ -1,14 +1,14 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
   ApiService._internal();
 
-  final String baseUrl =
-      'https://your-domain.hostingersite.com/facturascripts/api/3';
-  final String apiKey = 'YOUR_API_KEY';
+  final String baseUrl = dotenv.env['API_BASE_URL'] ?? '';
+  final String apiKey = dotenv.env['API_KEY'] ?? '';
 
   Map<String, String> get headers => {
         'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ class ApiService {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw Exception('Failed to load data: ${response.statusCode}');
+        throw Exception('Error - Cargar los datos: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('Network error: $e');
@@ -45,7 +45,7 @@ class ApiService {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return json.decode(response.body);
       } else {
-        throw Exception('Failed to post data: ${response.statusCode}');
+        throw Exception('Error - Cargar los datos: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('Network error: $e');
