@@ -2,8 +2,10 @@ import 'package:classlog/screens/login_screen.dart';
 import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/theme_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const ClassLogApp());
 }
 
