@@ -7,8 +7,8 @@ class ApiService {
   factory ApiService() => _instance;
   ApiService._internal();
 
-  final String baseUrl = dotenv.env['API_BASE_URL'] ?? '';
-  final String apiKey = dotenv.env['API_KEY'] ?? '';
+  final String baseUrl = dotenv.env['API_LOCAL_URL'] ?? '';
+  final String apiKey = dotenv.env['API_LOCAL_KEY'] ?? '';
 
   Map<String, String> get headers => {
         'Content-Type': 'application/json',
