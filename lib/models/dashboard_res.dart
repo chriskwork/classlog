@@ -21,6 +21,7 @@ class DashboardData {
   final List<TodaySchedule> todaySchedule;
   final List<dynamic> todayAttendance;
   final List<UpcomingEvent> upcomingEvents;
+  final AttendanceStats? attendanceStats;
 
   DashboardData({
     required this.studentId,
@@ -29,6 +30,7 @@ class DashboardData {
     required this.todaySchedule,
     required this.todayAttendance,
     required this.upcomingEvents,
+    this.attendanceStats,
   });
 
   factory DashboardData.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,9 @@ class DashboardData {
               ?.map((e) => UpcomingEvent.fromJson(e))
               .toList() ??
           [],
+      attendanceStats: json['attendance_stats'] != null
+          ? AttendanceStats.fromJson(json['attendance_stats'])
+          : null,
     );
   }
 }
@@ -94,6 +99,32 @@ class UpcomingEvent {
       titulo: json['titulo'] ?? '',
       tipo: json['tipo'] ?? '',
       fechaLimite: json['fecha_limite'] ?? '',
+    );
+  }
+}
+
+class AttendanceStats {
+  final int percentage;
+  final int present;
+  final int tarde;
+  final int absent;
+  final int total;
+
+  AttendanceStats({
+    required this.percentage,
+    required this.present,
+    required this.tarde,
+    required this.absent,
+    required this.total,
+  });
+
+  factory AttendanceStats.fromJson(Map<String, dynamic> json) {
+    return AttendanceStats(
+      percentage: json['percentage'] ?? 0,
+      present: json['present'] ?? 0,
+      tarde: json['tarde'] ?? 0,
+      absent: json['absent'] ?? 0,
+      total: json['total'] ?? 0,
     );
   }
 }

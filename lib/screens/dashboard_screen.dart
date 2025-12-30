@@ -183,7 +183,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         spacing: Sizes.size16,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CircularPercentage(percentage: 84),
+                          CircularPercentage(
+                              percentage:
+                                  _dashboardData!.attendanceStats?.percentage ??
+                                      0),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
