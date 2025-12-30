@@ -23,6 +23,8 @@ class ApiService {
         headers: headers,
       );
 
+      print('$baseUrl / $endpoint');
+
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
