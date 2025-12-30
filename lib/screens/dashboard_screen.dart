@@ -4,6 +4,7 @@ import 'package:classlog/theme/colors.dart';
 import 'package:classlog/theme/settings.dart';
 import 'package:classlog/widgets/constants/app_decorations.dart';
 import 'package:classlog/widgets/course_card.dart';
+import 'package:classlog/widgets/dashboard/circular_percentage.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  // String → IconData 변환
+  // String → IconData
   IconData _getIconData(String iconName) {
     switch (iconName) {
       case 'video_stable':
@@ -67,7 +68,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  // HEX String → Color 변환
+  // HEX String → Color
   Color _hexToColor(String hexString) {
     final buffer = StringBuffer();
     if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
@@ -103,16 +104,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Text('No hay datos'),
       );
     } else {
+      // dashboard UI
       return SingleChildScrollView(
           child: Padding(
         padding: const EdgeInsets.all(Gaps.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Clases de Hoy TODO -> change to ListView
-
+            // 📜 Clases de hoy
             Text(
-              'Clases de Hoy',
+              'Clase(s) de Hoy',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             Gaps.szBoxH10,
@@ -143,6 +144,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             Gaps.szBoxH20,
 
+            // 📜 % de asistencia
             SizedBox(
               width: double.infinity,
               child: DecoratedBox(
@@ -174,13 +176,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ],
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.calendar_today_rounded,
-                              color: mainColor,
-                            ),
-                          )
                         ],
                       ),
                       Gaps.szBoxH20,
@@ -188,7 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         spacing: Sizes.size16,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CircularPercentage(percentage: 93),
+                          CircularPercentage(percentage: 84),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,7 +218,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             Gaps.szBoxH20,
 
-            // Proximas fechas limite
+            // 📜 Proximas fechas limite
             Text(
               "Próximas Fechas Límite",
               style: Theme.of(context).textTheme.headlineSmall,
@@ -239,7 +234,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   padding: EdgeInsets.all(Sizes.size16),
                   child: Column(
                     spacing: Sizes.size16,
-                    // TODO -> change to ListView
                     children: [
                       Row(
                         spacing: Sizes.size12,
@@ -311,116 +305,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ));
     }
   }
-}
-
-// % graph de asistencia
-class CircularPercentage extends StatefulWidget {
-  final int percentage;
-  final double size;
-  final Duration duration;
-
-  const CircularPercentage({
-    super.key,
-    required this.percentage,
-    this.size = 80,
-    this.duration = const Duration(milliseconds: 1200),
-  });
-
-  @override
-  State<CircularPercentage> createState() => _CircularPercentageState();
-}
-
-class _CircularPercentageState extends State<CircularPercentage>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<int> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
-
-    _animation = IntTween(
-      begin: 0,
-      end: widget.percentage,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (BuildContext context, Widget? child) {
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: CustomPaint(
-            painter: _CircularPercentagePainter(_animation.value),
-            child: Center(
-              child: Text(
-                "${_animation.value}",
-                style: TextStyle(
-                  fontSize: widget.size * 0.35,
-                  fontWeight: FontWeight.bold,
-                  color: mainColor,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class _CircularPercentagePainter extends CustomPainter {
-  final int percentage;
-
-  _CircularPercentagePainter(this.percentage);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2;
-
-    final bgPaint = Paint()
-      ..color = Colors.grey[200]!
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 8;
-
-    canvas.drawCircle(center, radius - 4, bgPaint);
-
-    final progressPaint = Paint()
-      ..color = Color(0xff2563EB)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 8
-      ..strokeCap = StrokeCap.round;
-
-    final sweepAngle = 2 * -3.14159 * (percentage / 100);
-
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius - 4),
-      -3.14159 / 2,
-      sweepAngle,
-      false,
-      progressPaint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
