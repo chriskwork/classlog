@@ -2,6 +2,8 @@
 import 'package:classlog/theme/colors.dart';
 import 'package:flutter/material.dart';
 
+// Widget de circulo que demuestra % de asistencia
+// Porcentaje de asistencia: (Clases asistidas / Total de clases a la fecha) * 100
 class CircularPercentage extends StatefulWidget {
   final int percentage;
   final double size;
@@ -10,8 +12,8 @@ class CircularPercentage extends StatefulWidget {
   const CircularPercentage({
     super.key,
     required this.percentage,
-    this.size = 90,
-    this.duration = const Duration(milliseconds: 1200),
+    this.size = 90, // tamaño circulo
+    this.duration = const Duration(milliseconds: 1200), // tiempo de animation
   });
 
   @override
@@ -62,7 +64,7 @@ class _CircularPercentageState extends State<CircularPercentage>
               child: Text(
                 "${_animation.value}",
                 style: TextStyle(
-                  fontSize: widget.size * 0.35,
+                  fontSize: widget.size * 0.35, // tamaño de texto
                   fontWeight: FontWeight.bold,
                   color: mainColor,
                 ),
