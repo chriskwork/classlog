@@ -33,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _error = null;
       });
 
+      // cl-student => custom endpoint de facturascripts
       final res = await _apiService.get('cl-student?action=dashboard&id=1');
       final dashboardResponse = DashboardResponse.fromJson(res);
 
@@ -48,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  // String → IconData
+  // String → IconData TODO: 나중에 facturascripts에서 옵션 선택하도록 해야할듯?
   IconData _getIconData(String iconName) {
     switch (iconName) {
       case 'video_stable':
@@ -144,7 +145,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             Gaps.szBoxH20,
 
-            // 📜 % de asistencia
+            // 📜 % de asistencia: porcentage hasta hoy
             SizedBox(
               width: double.infinity,
               child: DecoratedBox(
@@ -192,6 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                // TODO: mensaje depende del numero %
                                 Text(
                                   '¡Sigue así!',
                                   style: Theme.of(context).textTheme.titleSmall,
@@ -254,6 +256,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // TODO: bring data from DB, how?
                               Text("Entrega Tarea Final"),
                               Text(
                                 "Mañana, 23:59",
