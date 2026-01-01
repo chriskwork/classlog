@@ -146,6 +146,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Gaps.szBoxH20,
 
             // 📜 % de asistencia: porcentage hasta hoy
+            // TODO: 나중에 출석 체크 하면 % 올라가는지 봐야 함!
             SizedBox(
               width: double.infinity,
               child: DecoratedBox(
@@ -239,69 +240,53 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   padding: EdgeInsets.all(Sizes.size16),
                   child: Column(
                     spacing: Sizes.size16,
-                    children: [
-                      Row(
-                        spacing: Sizes.size12,
-                        children: [
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: warningColor,
-                              borderRadius: BorderRadius.circular(Sizes.size16),
-                            ),
-                            child: const SizedBox(
-                              width: 6,
-                              height: 40,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // TODO: bring data from DB, how?
-                              Text("Entrega Tarea Final"),
-                              Text(
-                                "Mañana, 23:59",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: secondaryColor,
-                                    ),
+                    children: _dashboardData!.upcomingEvents.isEmpty
+                        ? [
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(Sizes.size16),
+                                child: Text(
+                                  'No hay eventos próximos',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(color: secondaryColor),
+                                ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        spacing: Sizes.size12,
-                        children: [
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: warningColor,
-                              borderRadius: BorderRadius.circular(Sizes.size16),
-                            ),
-                            child: const SizedBox(
-                              width: 6,
-                              height: 40,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Examen de Modulo"),
-                              Text(
-                                "23 de Noviembre, 15:00",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: secondaryColor,
+                            )
+                          ]
+                        : [
+                            ..._dashboardData!.upcomingEvents.map((event) {
+                              return Row(
+                                spacing: Sizes.size12,
+                                children: [
+                                  DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color:
+                                          _getEventColor(event.tipo), // 타입별 색상
+                                      borderRadius:
+                                          BorderRadius.circular(Sizes.size16),
                                     ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                                    child: const SizedBox(width: 6, height: 40),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(event.titulo),
+                                      Text(
+                                        _formatEventDate(event.fechaLimite),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(color: secondaryColor),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            }),
+                          ],
                   ),
                 ),
               ),
@@ -309,6 +294,106 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ));
+    }
+  }
+
+  Color _getEventColor(String tipo) {
+    switch (tipo) {
+      case 'examen':
+        return Color(0xFFEF4444);
+      case 'auto-evals':
+        return warningColor;
+      case 'proyecto':
+        return Color(0xFF3B82F6);
+      default:
+        return Color(0xFF6B7280);
+    }
+  }
+
+  // 날짜 포맷팅
+  String _formatEventDate(String fechaLimite) {
+    // "31-12-2025 10:00:00" → "Mañana, 10:00" 또는 "23 de Noviembre, 15:00"
+
+    try {
+      // PHP 형식: "31-12-2025 10:00:00"
+      final parts = fechaLimite.split(' ');
+      final dateParts = parts[0].split('-');
+      final timeParts = parts[1].split(':');
+
+      final eventDate = DateTime(
+        int.parse(dateParts[0]), // year
+        int.parse(dateParts[1]), // month
+        int.parse(dateParts[2]), // day
+        int.parse(timeParts[0]), // hour
+        int.parse(timeParts[1]), // minute
+      );
+
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final tomorrow = today.add(Duration(days: 1));
+      final eventDay = DateTime(eventDate.year, eventDate.month, eventDate.day);
+
+      final timeStr = '${timeParts[0]}:${timeParts[1]}';
+
+      final meses = [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+      ];
+
+      final monthName = meses[eventDate.month - 1];
+
+      // 오늘
+      if (eventDay == today) {
+        return 'Hoy, $timeStr';
+      }
+      // 내일
+      else if (eventDay == tomorrow) {
+        return 'Mañana, $timeStr';
+      }
+      // 일주일 이내
+      else if (eventDay.difference(today).inDays < 7) {
+        final dias = [
+          'Lunes',
+          'Martes',
+          'Miércoles',
+          'Jueves',
+          'Viernes',
+          'Sábado',
+          'Domingo'
+        ];
+
+        return '${dias[eventDate.weekday - 1]}, $monthName, $timeStr';
+      }
+      // 그 이상
+      else {
+        final meses = [
+          'Enero',
+          'Febrero',
+          'Marzo',
+          'Abril',
+          'Mayo',
+          'Junio',
+          'Julio',
+          'Agosto',
+          'Septiembre',
+          'Octubre',
+          'Noviembre',
+          'Diciembre'
+        ];
+        return '${eventDate.day} de ${meses[eventDate.month - 1]}, $timeStr';
+      }
+    } catch (e) {
+      return fechaLimite; // 파싱 실패시 원본 반환
     }
   }
 }
