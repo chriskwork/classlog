@@ -1,4 +1,4 @@
-import 'package:classlog/screens/home_screen.dart';
+import 'package:classlog/home_screen.dart';
 import 'package:classlog/core/features/auth/screens/register_screen.dart';
 import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/app_settings.dart';
