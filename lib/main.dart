@@ -3,10 +3,13 @@ import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/theme_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env"); // guardado URL, KEY
-  runApp(const ClassLogApp());
+  runApp(const ProviderScope(
+    child: ClassLogApp(),
+  ));
 }
 
 class ClassLogApp extends StatelessWidget {
