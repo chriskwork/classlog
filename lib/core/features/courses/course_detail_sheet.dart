@@ -1,7 +1,7 @@
 // lib/widgets/course_detail_sheet.dart
-import 'package:classlog/screens/my_courses_screen.dart';
+import 'package:classlog/core/features/courses/my_courses_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:classlog/theme/colors.dart';
+import 'package:classlog/core/theme/app_colors.dart';
 
 class CourseDetailSheet extends StatelessWidget {
   final Course course;

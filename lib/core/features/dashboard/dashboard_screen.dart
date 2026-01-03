@@ -1,7 +1,7 @@
-import 'package:classlog/models/dashboard_res.dart';
-import 'package:classlog/services/api_service.dart';
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/features/dashboard/models/dashboard_res.dart';
+import 'package:classlog/core/network/api_service.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/constants/app_decorations.dart';
 import 'package:classlog/widgets/course_card.dart';
 import 'package:classlog/widgets/dashboard/circular_percentage.dart';

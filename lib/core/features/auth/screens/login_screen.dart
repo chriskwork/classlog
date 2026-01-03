@@ -1,7 +1,7 @@
 import 'package:classlog/screens/home_screen.dart';
-import 'package:classlog/screens/register_screen.dart';
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/features/auth/screens/register_screen.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 

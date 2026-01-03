@@ -1,9 +1,9 @@
-import 'package:classlog/screens/calendar_screen.dart';
-import 'package:classlog/screens/config_screen.dart';
-import 'package:classlog/screens/dashboard_screen.dart';
-import 'package:classlog/screens/my_courses_screen.dart';
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/features/calendar/calendar_screen.dart';
+import 'package:classlog/core/features/config/config_screen.dart';
+import 'package:classlog/core/features/dashboard/dashboard_screen.dart';
+import 'package:classlog/core/features/courses/my_courses_screen.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/constants/appbar_notification.dart';
 import 'package:classlog/widgets/constants/bottom_navbar.dart';
 import 'package:flutter/material.dart';

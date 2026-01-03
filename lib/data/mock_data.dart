@@ -1,4 +1,4 @@
-import '../models/calendar_event.dart';
+import '../core/features/calendar/calendar_event.dart';
 
 class MockCalendarData {
   static List<CalendarEvent> getEvents() {

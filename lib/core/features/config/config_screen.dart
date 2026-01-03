@@ -1,7 +1,7 @@
-import 'package:classlog/screens/config_edit_profile.dart';
-import 'package:classlog/screens/config_security.dart';
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/features/config/config_edit_profile.dart';
+import 'package:classlog/core/features/config/config_security.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:flutter/material.dart';
 
 class ConfigScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
-import 'package:classlog/screens/login_screen.dart';
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/theme_style.dart';
+import 'package:classlog/core/features/auth/screens/login_screen.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/theme_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

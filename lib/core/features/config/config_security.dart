@@ -1,27 +1,26 @@
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class ConfigEditProfile extends StatefulWidget {
-  const ConfigEditProfile({super.key});
+class ConfigSecurity extends StatefulWidget {
+  const ConfigSecurity({super.key});
 
   @override
-  State<ConfigEditProfile> createState() => _ConfigEditProfileState();
+  State<ConfigSecurity> createState() => _ConfigSecurityState();
 }
 
-class _ConfigEditProfileState extends State<ConfigEditProfile> {
+class _ConfigSecurityState extends State<ConfigSecurity> {
   final _formKey = GlobalKey<FormState>();
-  final _nombreContoller = TextEditingController();
-  final _apellidosController = TextEditingController();
-  final _telefonoController = TextEditingController();
+  final _emailContoller = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   // final bool _isLoading = false;
 
   @override
   void dispose() {
-    _nombreContoller.dispose();
-    _apellidosController.dispose();
-    _telefonoController.dispose();
+    _emailContoller.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -29,7 +28,7 @@ class _ConfigEditProfileState extends State<ConfigEditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Editar Perfil"),
+          title: Text("Seguridad"),
         ),
         body: Padding(
             padding: const EdgeInsets.all(Gaps.lg),
@@ -45,14 +44,14 @@ class _ConfigEditProfileState extends State<ConfigEditProfile> {
                       children: [
                         // Email
                         CustomFormField(
-                          labelText: 'Nombre',
-                          controller: _nombreContoller,
-                          inputFomatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[^0-9]'))
-                          ],
+                          labelText: 'Correo Electrónico',
+                          controller: _emailContoller,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Nombre requerido';
+                              return 'Correo requerido';
+                            }
+                            if (!value.contains('@')) {
+                              return 'Correo no válido';
                             }
                             return null;
                           },
@@ -61,42 +60,39 @@ class _ConfigEditProfileState extends State<ConfigEditProfile> {
 
                         // Password
                         CustomFormField(
-                          labelText: 'Apellidos',
-                          controller: _apellidosController,
-                          inputFomatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[^0-9]'))
-                          ],
-                          obscureText: false,
+                          labelText: 'Contraseña(Más de 6 caracteres)',
+                          controller: _passwordController,
+                          obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Apellido(s) requerido';
+                              return 'Contraseña requerida';
+                            }
+                            if (value.length < 6) {
+                              return 'Mínimo 6 caracteres';
                             }
                             return null;
                           },
+                          isPassword: true,
                         ),
 
                         // Confirmar Password
                         CustomFormField(
-                          labelText: 'Teléfono',
-                          keyboardType: TextInputType.phone,
-                          inputFomatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(9),
-                          ],
-                          controller: _telefonoController,
-                          obscureText: false,
+                          labelText: 'Confirmar Contraseña',
+                          controller: _confirmPasswordController,
+                          obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Teléfono requerido';
+                              return 'Contraseña requerida';
                             }
-                            if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                              return 'Solo números permitidos';
+                            if (value.length < 6) {
+                              return 'Mínimo 6 caracteres';
                             }
-                            if (value.length != 9) {
-                              return 'Debe tener 9 dígitos';
+                            if (value != _passwordController.text) {
+                              return 'Las contraseñas no coinciden';
                             }
                             return null;
                           },
+                          isPassword: true,
                         ),
 
                         SizedBox(

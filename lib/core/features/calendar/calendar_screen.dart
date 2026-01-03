@@ -1,7 +1,7 @@
 import 'package:classlog/data/mock_data.dart';
-import 'package:classlog/models/calendar_event.dart';
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/features/calendar/calendar_event.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 

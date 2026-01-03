@@ -1,6 +1,6 @@
-import 'package:classlog/screens/course_detail_sheet.dart';
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/features/courses/course_detail_sheet.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 

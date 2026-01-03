@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 
 class RoleSegmentToggle extends StatelessWidget {
   final int selectedIndex; // 0 = Estudiante, 1 = Profesor
@@ -39,7 +39,6 @@ class RoleSegmentToggle extends StatelessWidget {
                   ),
                 ),
               ),
-
               Row(
                 children: [
                   Expanded(

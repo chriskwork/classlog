@@ -1,5 +1,5 @@
 // % graph de asistencia
-import 'package:classlog/theme/colors.dart';
+import 'package:classlog/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // Widget de circulo que demuestra % de asistencia

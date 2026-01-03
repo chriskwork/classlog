@@ -1,5 +1,5 @@
-import 'package:classlog/theme/colors.dart';
-import 'package:classlog/theme/settings.dart';
+import 'package:classlog/core/theme/app_colors.dart';
+import 'package:classlog/core/theme/app_settings.dart';
 import 'package:flutter/material.dart';
 
 class CourseCard extends StatelessWidget {
