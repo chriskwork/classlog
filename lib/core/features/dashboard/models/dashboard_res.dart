@@ -105,25 +105,25 @@ class UpcomingEvent {
 
 class AttendanceStats {
   final int percentage;
-  final int present;
+  final int presente;
   final int tarde;
-  final int absent;
+  final int ausente;
   final int total;
 
   AttendanceStats({
     required this.percentage,
-    required this.present,
+    required this.presente,
     required this.tarde,
-    required this.absent,
+    required this.ausente,
     required this.total,
   });
 
   factory AttendanceStats.fromJson(Map<String, dynamic> json) {
     return AttendanceStats(
       percentage: json['percentage'] ?? 0,
-      present: json['present'] ?? 0,
+      presente: json['presente'] ?? 0,
       tarde: json['tarde'] ?? 0,
-      absent: json['absent'] ?? 0,
+      ausente: json['ausente'] ?? 0,
       total: json['total'] ?? 0,
     );
   }
