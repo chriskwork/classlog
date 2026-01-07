@@ -1,41 +1,73 @@
-import 'package:classlog/data/mock_data.dart';
 import 'package:classlog/core/features/calendar/calendar_event.dart';
 import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/app_settings.dart';
+import 'package:classlog/core/providers/calendar_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarScreen extends StatefulWidget {
+class CalendarScreen extends ConsumerStatefulWidget {
   const CalendarScreen({super.key});
 
   @override
-  State<CalendarScreen> createState() => _CalendarScreenState();
+  ConsumerState<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
-  EventType _selectedType = EventType.asistencia;
+class _CalendarScreenState extends ConsumerState<CalendarScreen> {
+  EventType _selectedType = EventType.examen;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-
-  // Event data
-  final List<CalendarEvent> _allEvents = MockCalendarData.getEvents();
 
   @override
   void initState() {
     super.initState();
-    _allEvents;
     _selectedDay = _focusedDay;
   }
 
   // Get events of selected tag
-  List<CalendarEvent> _getEventsForDay(DateTime day) {
-    return _allEvents.where((event) {
+  List<CalendarEvent> _getEventsForDay(
+      DateTime day, List<CalendarEvent> allEvents) {
+    return allEvents.where((event) {
       return isSameDay(event.date, day) && event.type == _selectedType;
     }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final calendarEventsAsync = ref.watch(calendarEventsProvider);
+
+    return calendarEventsAsync.when(
+      data: (events) => _buildCalendarContent(events),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 48, color: Colors.red.shade300),
+            const SizedBox(height: 16),
+            Text(
+              'Error al cargar eventos',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error.toString(),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCalendarContent(List<CalendarEvent> events) {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Gaps.lg),
@@ -43,18 +75,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
           children: [
             _buildTagSelector(),
             SizedBox(height: Sizes.size8),
-            _buildCalendar(),
+            _buildCalendar(events),
             const Divider(
               height: 40,
               color: greyColor,
             ),
-            _buildEventList(),
+            _buildEventList(events),
           ],
         ),
       ),
     );
   }
 
+  // ////////////////////////////////////////////////////////////// widgets
   Widget _buildTagSelector() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -127,13 +160,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
 // Calendar part
 
-  Widget _buildCalendar() {
+  Widget _buildCalendar(List<CalendarEvent> events) {
     return TableCalendar<CalendarEvent>(
       firstDay: DateTime.utc(2024, 1, 1),
       lastDay: DateTime.utc(2026, 12, 31),
       focusedDay: _focusedDay,
       selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-      eventLoader: _getEventsForDay,
+      eventLoader: (day) => _getEventsForDay(day, events),
       startingDayOfWeek: StartingDayOfWeek.monday,
 
       // Header
@@ -232,9 +265,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  Widget _buildEventList() {
+  Widget _buildEventList(List<CalendarEvent> allEvents) {
     final events = _selectedDay != null
-        ? _getEventsForDay(_selectedDay!)
+        ? _getEventsForDay(_selectedDay!, allEvents)
         : <CalendarEvent>[];
 
     if (events.isEmpty) {
