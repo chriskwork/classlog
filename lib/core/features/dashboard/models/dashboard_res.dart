@@ -37,12 +37,12 @@ class DashboardData {
     return DashboardData(
       studentId: json['student_id'] ?? '',
       today: json['today'] ?? '',
-      dayOfWeek: json['dat_of_week'] ?? '',
+      dayOfWeek: json['day_of_week'] ?? '',
       todaySchedule: (json['today_schedule'] as List?)
               ?.map((e) => TodaySchedule.fromJson(e))
               .toList() ??
           [],
-      todayAttendance: json['today_attendance'] ?? '',
+      todayAttendance: json['today_attendance'] ?? [],
       upcomingEvents: (json['upcoming_events'] as List?)
               ?.map((e) => UpcomingEvent.fromJson(e))
               .toList() ??

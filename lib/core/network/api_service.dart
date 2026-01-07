@@ -35,6 +35,8 @@ class ApiService {
 
   // POST
   Future<dynamic> post(String endpoint, Map<String, dynamic> data) async {
+    final fullUrl = '$baseUrl/$endpoint';
+    print('Request URL: $fullUrl');
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/$endpoint'),
