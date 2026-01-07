@@ -1,19 +1,20 @@
+import 'package:classlog/core/features/auth/screens/login_screen.dart';
 import 'package:classlog/core/features/config/config_edit_profile.dart';
 import 'package:classlog/core/features/config/config_security.dart';
+import 'package:classlog/core/providers/auth_provider.dart';
 import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ConfigScreen extends StatefulWidget {
+class ConfigScreen extends ConsumerWidget {
   const ConfigScreen({super.key});
 
   @override
-  State<ConfigScreen> createState() => _ConfigScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+    final user = authState.user;
 
-class _ConfigScreenState extends State<ConfigScreen> {
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(Gaps.lg),
       child: Column(
@@ -69,8 +70,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
           )),
           const SizedBox(height: 20),
           Text(
-            // TODO: user name from DB
-            "Yohan Kim",
+            user?.fullName ?? 'Usuario',
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -141,7 +141,16 @@ class _ConfigScreenState extends State<ConfigScreen> {
             width: double.infinity,
             height: 40,
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await ref.read(authProvider.notifier).logout();
+                if (context.mounted) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (route) => false,
+                  );
+                }
+              },
               style: OutlinedButton.styleFrom(
                   side: BorderSide(width: 1, color: lineColor),
                   foregroundColor: textPrimaryColor,
@@ -163,7 +172,47 @@ class _ConfigScreenState extends State<ConfigScreen> {
             width: double.infinity,
             height: 40,
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () async {
+                // Show confirmation dialog
+                final confirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Eliminar Cuenta'),
+                    content: Text('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: Text('Cancelar'),
+                      ),
+                      FilledButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        child: Text('Eliminar'),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (confirmed == true) {
+                  final success = await ref.read(authProvider.notifier).deleteAccount();
+                  if (success && context.mounted) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (route) => false,
+                    );
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error al eliminar cuenta'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                }
+              },
               style: FilledButton.styleFrom(
                 backgroundColor: Colors.red,
               ),
