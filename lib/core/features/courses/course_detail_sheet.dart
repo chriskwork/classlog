@@ -1,5 +1,4 @@
-// lib/widgets/course_detail_sheet.dart
-import 'package:classlog/core/features/courses/my_courses_screen.dart';
+import 'package:classlog/core/features/courses/course.dart';
 import 'package:flutter/material.dart';
 import 'package:classlog/core/theme/app_colors.dart';
 
@@ -43,12 +42,12 @@ class CourseDetailSheet extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: course.iconBgColor,
+                            color: course.lightColorValue,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(
-                            course.icon,
-                            color: course.iconColor,
+                            course.iconData,
+                            color: course.colorValue,
                             size: 32,
                           ),
                         ),
@@ -62,7 +61,7 @@ class CourseDetailSheet extends StatelessWidget {
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                               Text(
-                                course.time,
+                                course.timeRange,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
@@ -87,12 +86,12 @@ class CourseDetailSheet extends StatelessWidget {
 
                     // 정보 섹션
                     _buildInfoRow(
-                        context, Icons.person, 'Profesor', course.profesor),
+                        context, Icons.person, 'Profesor', course.professorName ?? 'N/A'),
                     const SizedBox(height: 12),
-                    _buildInfoRow(context, Icons.room, 'Aula', course.aula),
+                    _buildInfoRow(context, Icons.room, 'Aula', course.aula ?? 'N/A'),
                     const SizedBox(height: 12),
                     _buildInfoRow(context, Icons.check_circle, 'Asistencia',
-                        '${(course.asistencia * 100).toInt()}%'),
+                        '${course.attendancePercentage}%'),
 
                     const SizedBox(height: 24),
 
@@ -103,40 +102,23 @@ class CourseDetailSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     LinearProgressIndicator(
-                      value: course.asistencia,
+                      value: course.attendanceTotal > 0
+                          ? course.attendancePercentage / 100.0
+                          : 0.0,
                       backgroundColor: Colors.grey[200],
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        course.asistencia >= 0.8 ? Colors.green : Colors.orange,
+                        course.attendancePercentage >= 80 ? Colors.green : Colors.orange,
                       ),
                       minHeight: 8,
                       borderRadius: BorderRadius.circular(4),
                     ),
-
-                    const SizedBox(height: 32),
-
-                    // 액션 버튼들
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: () {
-                              // TODO: 출석 기록 보기
-                            },
-                            icon: const Icon(Icons.history),
-                            label: const Text('Historial'),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: FilledButton.icon(
-                            onPressed: () {
-                              // TODO: 과목 상세 페이지로 이동
-                            },
-                            icon: const Icon(Icons.arrow_forward),
-                            label: const Text('Ver más'),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 8),
+                    Text(
+                      '${course.attendancePresent} de ${course.attendanceTotal} clases',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
                   ],
                 ),

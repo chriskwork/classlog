@@ -1,66 +1,26 @@
+import 'package:classlog/core/features/courses/course.dart';
 import 'package:classlog/core/features/courses/course_detail_sheet.dart';
+import 'package:classlog/core/providers/courses_provider.dart';
 import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/course_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyCoursesScreen extends StatefulWidget {
+class MyCoursesScreen extends ConsumerStatefulWidget {
   const MyCoursesScreen({super.key});
 
   @override
-  State<MyCoursesScreen> createState() => _MyCoursesScreenState();
+  ConsumerState<MyCoursesScreen> createState() => _MyCoursesScreenState();
 }
 
-class _MyCoursesScreenState extends State<MyCoursesScreen> {
+class _MyCoursesScreenState extends ConsumerState<MyCoursesScreen> {
   int selectedDay = 0; // Dias..
-  final days = ["L", "M", "X", "J", "V"];
 
-  // Temporary dummy data
-  final List<Course> allCourses = [
-    Course(
-      name: 'Desarrollo de Interfaces',
-      time: '15:00 - 17:30',
-      aula: 'Aula 2',
-      days: [0, 2],
-      icon: Icons.widgets_outlined,
-      iconColor: mainColor,
-      iconBgColor: mainLightColor,
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in massa nec purus ultricies laoreet eu eu odio. Proin nibh velit, feugiat id nisi et, bibendum elementum felis. Etiam nunc nunc, malesuada nec molestie quis, posuere non metus.',
-      profesor: 'Profesor X',
-    ), // L, X
-    Course(
-      name: 'Acceso a Datos',
-      time: '18:00 - 19:30',
-      aula: 'Aula 2',
-      days: [0, 3],
-      icon: Icons.storage_outlined,
-      iconColor: mainColor,
-      iconBgColor: mainLightColor,
-      profesor: 'Maria Garcia',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in massa nec purus ultricies laoreet eu eu odio. Proin nibh velit, feugiat id nisi et, bibendum elementum felis. Etiam nunc nunc, malesuada nec molestie quis, posuere non metus.',
-      asistencia: 0.93,
-    ),
-
-    Course(
-      name: 'Proyecto',
-      time: '20:00 - 21:30',
-      aula: 'Aula 2',
-      days: [0, 1, 4],
-      icon: Icons.computer_outlined,
-      iconColor: mainColor,
-      iconBgColor: mainLightColor,
-      profesor: 'Virginia Fernandez',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in massa nec purus ultricies laoreet eu eu odio. Proin nibh velit, feugiat id nisi et, bibendum elementum felis. Etiam nunc nunc, malesuada nec molestie quis, posuere non metus.',
-    ),
-  ];
-
-  // Filtering selected day
-  List<Course> get filteredCourses {
-    return allCourses
-        .where((course) => course.days.contains(selectedDay))
+  // Filter courses by selected day
+  List<Course> filterCoursesByDay(List<Course> courses, int dayIndex) {
+    return courses
+        .where((course) => course.dayIndices.contains(dayIndex))
         .toList();
   }
 
@@ -82,6 +42,42 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final coursesAsync = ref.watch(coursesProvider);
+
+    return coursesAsync.when(
+      data: (courses) => _buildCoursesContent(courses),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 48, color: Colors.red.shade300),
+            const SizedBox(height: 16),
+            Text(
+              'Error al cargar cursos',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error.toString(),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCoursesContent(List<Course> allCourses) {
+    final filteredCourses = filterCoursesByDay(allCourses, selectedDay);
+
     return Column(
       children: [
         DaySelector(
@@ -91,64 +87,48 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
           },
         ),
         Expanded(
-          child: ListView.separated(
-              padding: const EdgeInsets.all(Gaps.lg),
-              itemCount: filteredCourses.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final course = filteredCourses[index];
-                return DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: lineColor,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                    child: CourseCard(
-                      courseName: course.name,
-                      time: course.time,
-                      icon: course.icon,
-                      iconColor: course.iconColor,
-                      iconBgColor: course.iconBgColor,
-                      onTap: () => _showCourseDetail(context, course),
+          child: filteredCourses.isEmpty
+              ? Center(
+                  child: Text(
+                    'No hay clases este día',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey.shade600,
                     ),
                   ),
-                );
-              }),
+                )
+              : ListView.separated(
+                  padding: const EdgeInsets.all(Gaps.lg),
+                  itemCount: filteredCourses.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final course = filteredCourses[index];
+                    return DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: lineColor,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 8),
+                        child: CourseCard(
+                          courseName: course.name,
+                          time: course.timeRange,
+                          icon: course.iconData,
+                          iconColor: course.colorValue,
+                          iconBgColor: course.lightColorValue,
+                          onTap: () => _showCourseDetail(context, course),
+                        ),
+                      ),
+                    );
+                  }),
         ),
       ],
     );
   }
-}
-
-class Course {
-  final String name;
-  final String time;
-  final String aula;
-  final List<int> days;
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBgColor;
-  final String description;
-  final String profesor;
-  final double asistencia;
-
-  Course({
-    required this.name,
-    required this.time,
-    required this.aula,
-    required this.days,
-    required this.icon,
-    required this.iconColor,
-    required this.iconBgColor,
-    required this.description,
-    required this.profesor,
-    this.asistencia = 0.0,
-  });
 }
 
 class DaySelector extends StatelessWidget {
