@@ -1,20 +1,20 @@
 import 'package:classlog/home_screen.dart';
 import 'package:classlog/core/features/auth/screens/register_screen.dart';
+import 'package:classlog/core/providers/auth_provider.dart';
 import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  int selectedIndex = 0;
-
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailContoller = TextEditingController();
   final _passwordController = TextEditingController();
@@ -114,25 +114,53 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: FilledButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  debugPrint('role: $selectedIndex');
-                                  debugPrint('email: ${_emailContoller.text}');
-                                  debugPrint(
-                                    'password: ${_passwordController.text}',
-                                  );
-                                  // login logis here ###########
-                                }
+                              onPressed: ref.watch(authProvider).isLoading
+                                  ? null
+                                  : () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        final navigator = Navigator.of(context);
+                                        final messenger =
+                                            ScaffoldMessenger.of(context);
 
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
-                                );
-                              },
-                              child: const Text(
-                                'Iniciar sesión',
-                              ),
+                                        final success = await ref
+                                            .read(authProvider.notifier)
+                                            .login(
+                                              _emailContoller.text.trim(),
+                                              _passwordController.text,
+                                            );
+
+                                        if (!mounted) return;
+
+                                        if (success) {
+                                          navigator.pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeScreen(),
+                                            ),
+                                          );
+                                        } else {
+                                          final error =
+                                              ref.read(authProvider).error;
+                                          messenger.showSnackBar(
+                                            SnackBar(
+                                              content: Text(error ??
+                                                  'Error al iniciar sesión'),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                              child: ref.watch(authProvider).isLoading
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : const Text('Iniciar sesión'),
                             ),
                           ),
 
@@ -176,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: Sizes.size32), // ✅ 수정
+        padding: const EdgeInsets.only(bottom: Sizes.size32),
         child: Text(
           'Classlog ©${DateTime.now().year}',
           textAlign: TextAlign.center,

@@ -1,24 +1,24 @@
+import 'package:classlog/home_screen.dart';
+import 'package:classlog/core/providers/auth_provider.dart';
 import 'package:classlog/core/theme/app_settings.dart';
 import 'package:classlog/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  int selectedIndex = 0;
-
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailContoller = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  // final bool _isLoading = false;
 
   @override
   void dispose() {
@@ -75,6 +75,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       spacing: Sizes.size12,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Nombre
+                        CustomFormField(
+                          labelText: 'Nombre',
+                          controller: _nameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Nombre requerido';
+                            }
+                            return null;
+                          },
+                          obscureText: false,
+                        ),
+
+                        // Apellidos
+                        CustomFormField(
+                          labelText: 'Apellidos',
+                          controller: _lastNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Apellidos requeridos';
+                            }
+                            return null;
+                          },
+                          obscureText: false,
+                        ),
+
                         // Email
                         CustomFormField(
                           labelText: 'Correo Electrónico',
@@ -93,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         // Password
                         CustomFormField(
-                          labelText: 'Contraseña(Más de 6 caracteres)',
+                          labelText: 'Contraseña (Más de 6 caracteres)',
                           controller: _passwordController,
                           obscureText: true,
                           validator: (value) {
@@ -111,14 +137,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         // Confirmar Password
                         CustomFormField(
                           labelText: 'Confirmar Contraseña',
-                          controller: _passwordController,
+                          controller: _confirmPasswordController,
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Contraseña requerida';
                             }
-                            if (value.length < 6) {
-                              return 'Mínimo 6 caracteres';
+                            if (value != _passwordController.text) {
+                              return 'Las contraseñas no coinciden';
                             }
                             return null;
                           },
@@ -129,27 +155,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: Sizes.size4,
                         ),
 
-                        SizedBox(
-                          height: Sizes.size4,
-                        ),
-
-                        // Login button
+                        // Register button
                         SizedBox(
                           width: double.infinity,
                           child: FilledButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                debugPrint('role: $selectedIndex');
-                                debugPrint('email: ${_emailContoller.text}');
-                                debugPrint(
-                                  'password: ${_passwordController.text}',
-                                );
-                                // login logis here ###########
-                              }
-                            },
-                            child: const Text(
-                              'Registrar',
-                            ),
+                            onPressed: ref.watch(authProvider).isLoading
+                                ? null
+                                : () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      final navigator = Navigator.of(context);
+                                      final messenger = ScaffoldMessenger.of(context);
+
+                                      final success = await ref
+                                          .read(authProvider.notifier)
+                                          .register(
+                                            email: _emailContoller.text.trim(),
+                                            password: _passwordController.text,
+                                            nombre: _nameController.text.trim(),
+                                            apellidos: _lastNameController.text.trim(),
+                                          );
+
+                                      if (!mounted) return;
+
+                                      if (success) {
+                                        navigator.pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(),
+                                          ),
+                                        );
+                                      } else {
+                                        final error = ref.read(authProvider).error;
+                                        messenger.showSnackBar(
+                                          SnackBar(
+                                            content: Text(error ?? 'Error al registrar'),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                            child: ref.watch(authProvider).isLoading
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text('Registrar'),
                           ),
                         ),
                       ],
