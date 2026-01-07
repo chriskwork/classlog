@@ -39,7 +39,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   const SizedBox(height: 48),
                   Image.asset('assets/images/classlog_logo_blue.png',
-                      width: 160),
+                      width: 220),
                   const SizedBox(height: Sizes.size10),
                   Text(
                     'Centro de Formación Digital Skills',
