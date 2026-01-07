@@ -4,6 +4,7 @@ import 'package:classlog/core/theme/theme_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env"); // guardado URL, KEY
@@ -17,32 +18,43 @@ class ClassLogApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ClassLog',
-      theme: ThemeData(
-        colorScheme: appColorScheme(), // custom color theme
-        textTheme: appTextTheme(), // custom font theme
-        appBarTheme: AppBarThemeData(
-          centerTitle: true,
-          backgroundColor: bgLightColor,
-        ),
-        scaffoldBackgroundColor: bgLightColor,
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(
-            foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            textStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+    return ResponsiveApp(builder: (context) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'ClassLog',
+        theme: ThemeData(
+          colorScheme: appColorScheme(), // custom color theme
+          textTheme: appTextTheme(), // custom font theme
+          appBarTheme: AppBarThemeData(
+            centerTitle: true,
+            backgroundColor: bgLightColor,
+          ),
+          scaffoldBackgroundColor: bgLightColor,
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
-      ),
-      home: LoginScreen(),
-    );
+        builder: (context, child) {
+          // 웹에서 최대 너비 제한 (모바일 뷰포트처럼)
+          return Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600), // 원하는 최대 너비
+              child: child!,
+            ),
+          );
+        },
+        home: LoginScreen(),
+      );
+    });
   }
 }
