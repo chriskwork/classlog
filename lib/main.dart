@@ -1,4 +1,4 @@
-import 'package:classlog/core/features/auth/screens/login_screen.dart';
+import 'package:classlog/core/features/auth/widgets/auth_wrapper.dart';
 import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/theme_style.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +53,7 @@ class ClassLogApp extends StatelessWidget {
             ),
           );
         },
-        home: LoginScreen(),
+        home: const AuthWrapper(),
       );
     });
   }

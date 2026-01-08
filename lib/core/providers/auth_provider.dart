@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:classlog/core/network/api_service.dart';
@@ -39,41 +40,81 @@ class AuthNotifier extends Notifier<AuthState> {
   @override
   AuthState build() {
     _checkAuth();
-    return AuthState();
+    return AuthState(isLoading: true); // Start with loading state
   }
 
   // Check if user is already logged in
   Future<void> _checkAuth() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getInt('user_id');
+    try {
+      if (kDebugMode) {
+        print('[AUTH] Starting _checkAuth');
+      }
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getInt('user_id');
 
-    if (userId != null) {
-      await loadUser(userId);
+      if (kDebugMode) {
+        print('[AUTH] Retrieved user_id from SharedPreferences: $userId');
+      }
+
+      if (userId != null) {
+        if (kDebugMode) {
+          print('[AUTH] User ID found, loading user profile...');
+        }
+        await loadUser(userId);
+      } else {
+        // No user found, stop loading
+        if (kDebugMode) {
+          print('[AUTH] No user_id found, showing login screen');
+        }
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (e) {
+      // Error checking auth, stop loading
+      if (kDebugMode) {
+        print('[AUTH] Error in _checkAuth: $e');
+      }
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
   // Load user profile
   Future<void> loadUser(int userId) async {
     try {
+      if (kDebugMode) {
+        print('[AUTH] loadUser called with userId: $userId');
+      }
       state = state.copyWith(isLoading: true, error: null);
 
-      final response = await _apiService
-          .get('cl-auth?action=profile&id=$userId'); // TODO: cl-auth 엔드포인트 추가할것
+      final response =
+          await _apiService.get('cl-auth?action=profile&id=$userId');
+
+      if (kDebugMode) {
+        print('[AUTH] API response: $response');
+      }
 
       if (response['success'] == true) {
         final user = User.fromJson(response['data']);
+        if (kDebugMode) {
+          print('[AUTH] User loaded successfully: ${user.email}');
+        }
         state = state.copyWith(
           user: user,
           isAuthenticated: true,
           isLoading: false,
         );
       } else {
+        if (kDebugMode) {
+          print('[AUTH] Failed to load user: ${response['message']}');
+        }
         state = state.copyWith(
           error: response['message'] ?? 'Error al cargar usuario',
           isLoading: false,
         );
       }
     } catch (e) {
+      if (kDebugMode) {
+        print('[AUTH] Error loading user: $e');
+      }
       state = state.copyWith(
         error: e.toString(),
         isLoading: false,
@@ -97,8 +138,16 @@ class AuthNotifier extends Notifier<AuthState> {
 
         // Save user ID to local storage
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('user_id', user.id);
+        final saveResult = await prefs.setInt('user_id', user.id);
         await prefs.setString('user_email', user.email);
+
+        if (kDebugMode) {
+          print('[AUTH] Login successful - user: ${user.email}');
+          print('[AUTH] Saved user_id to SharedPreferences: ${user.id}, result: $saveResult');
+          // Verify it was saved
+          final savedUserId = prefs.getInt('user_id');
+          print('[AUTH] Verification - Retrieved user_id: $savedUserId');
+        }
 
         state = state.copyWith(
           user: user,
