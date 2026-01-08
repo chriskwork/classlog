@@ -47,42 +47,55 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<void> _checkAuth() async {
     try {
       if (kDebugMode) {
-        print('[AUTH] Starting _checkAuth');
+        print('[AUTH] ========== Starting _checkAuth ==========');
+        print('[AUTH] Platform: ${kIsWeb ? "Web" : "Native"}');
       }
 
-      // Add a small delay to ensure SharedPreferences is fully initialized on web
-      await Future.delayed(const Duration(milliseconds: 100));
-
+      // Get SharedPreferences instance
       final prefs = await SharedPreferences.getInstance();
 
-      // Force reload from storage on web
+      // On web, reload to ensure we get the latest data from localStorage
       if (kIsWeb) {
+        if (kDebugMode) {
+          print('[AUTH] Web platform detected - reloading from localStorage');
+        }
         await prefs.reload();
       }
 
+      // Try to get user_id
       final userId = prefs.getInt('user_id');
+      final userEmail = prefs.getString('user_email');
 
       if (kDebugMode) {
-        print('[AUTH] Retrieved user_id from SharedPreferences: $userId');
-        print('[AUTH] All keys in SharedPreferences: ${prefs.getKeys()}');
+        print('[AUTH] Retrieved from storage:');
+        print('[AUTH]   - user_id: $userId');
+        print('[AUTH]   - user_email: $userEmail');
+        print('[AUTH]   - All keys: ${prefs.getKeys()}');
+
+        // Check if keys exist but values are null
+        final hasUserIdKey = prefs.getKeys().contains('flutter.user_id');
+        final hasEmailKey = prefs.getKeys().contains('flutter.user_email');
+        print('[AUTH]   - Has user_id key: $hasUserIdKey');
+        print('[AUTH]   - Has user_email key: $hasEmailKey');
       }
 
       if (userId != null) {
         if (kDebugMode) {
-          print('[AUTH] User ID found, loading user profile...');
+          print('[AUTH] User ID found ($userId), loading user profile...');
         }
         await loadUser(userId);
       } else {
         // No user found, stop loading
         if (kDebugMode) {
-          print('[AUTH] No user_id found, showing login screen');
+          print('[AUTH] No user_id found in storage, showing login screen');
         }
         state = state.copyWith(isLoading: false);
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       // Error checking auth, stop loading
       if (kDebugMode) {
         print('[AUTH] Error in _checkAuth: $e');
+        print('[AUTH] Stack trace: $stackTrace');
       }
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -147,23 +160,41 @@ class AuthNotifier extends Notifier<AuthState> {
       if (response['success'] == true) {
         final user = User.fromJson(response['data']['user']);
 
-        // Save user ID to local storage
-        final prefs = await SharedPreferences.getInstance();
-        final saveResult = await prefs.setInt('user_id', user.id);
-        await prefs.setString('user_email', user.email);
-
-        // Force commit to storage on web
-        if (kIsWeb) {
-          await prefs.reload();
+        if (kDebugMode) {
+          print('[AUTH] ========== Login Successful ==========');
+          print('[AUTH] User: ${user.email} (ID: ${user.id})');
         }
 
+        // Save user ID to local storage
+        final prefs = await SharedPreferences.getInstance();
+
         if (kDebugMode) {
-          print('[AUTH] Login successful - user: ${user.email}');
-          print('[AUTH] Saved user_id to SharedPreferences: ${user.id}, result: $saveResult');
-          // Verify it was saved
+          print('[AUTH] Saving to SharedPreferences...');
+        }
+
+        final saveResult = await prefs.setInt('user_id', user.id);
+        final emailSaveResult = await prefs.setString('user_email', user.email);
+
+        if (kDebugMode) {
+          print('[AUTH] Save results:');
+          print('[AUTH]   - user_id ($user.id): $saveResult');
+          print('[AUTH]   - user_email (${user.email}): $emailSaveResult');
+
+          // Immediate verification without delay
           final savedUserId = prefs.getInt('user_id');
-          print('[AUTH] Verification - Retrieved user_id: $savedUserId');
-          print('[AUTH] All keys after save: ${prefs.getKeys()}');
+          final savedEmail = prefs.getString('user_email');
+          print('[AUTH] Immediate verification:');
+          print('[AUTH]   - Retrieved user_id: $savedUserId');
+          print('[AUTH]   - Retrieved user_email: $savedEmail');
+          print('[AUTH]   - All keys in storage: ${prefs.getKeys()}');
+
+          // Check storage with delay for web
+          if (kIsWeb) {
+            Future.delayed(const Duration(milliseconds: 100), () async {
+              final delayedUserId = prefs.getInt('user_id');
+              print('[AUTH] Delayed verification (100ms): user_id = $delayedUserId');
+            });
+          }
         }
 
         state = state.copyWith(
@@ -215,14 +246,14 @@ class AuthNotifier extends Notifier<AuthState> {
         await prefs.setInt('user_id', user.id);
         await prefs.setString('user_email', user.email);
 
-        // Force commit to storage on web
-        if (kIsWeb) {
-          await prefs.reload();
-        }
-
         if (kDebugMode) {
           print('[AUTH] Register successful - user: ${user.email}');
           print('[AUTH] Saved user_id: ${user.id}');
+
+          // Verify save
+          await Future.delayed(const Duration(milliseconds: 50));
+          final savedUserId = prefs.getInt('user_id');
+          print('[AUTH] Verification after register - user_id: $savedUserId');
         }
 
         state = state.copyWith(
