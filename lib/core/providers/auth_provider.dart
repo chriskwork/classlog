@@ -102,11 +102,10 @@ class AuthNotifier extends Notifier<AuthState> {
       }
       state = state.copyWith(isLoading: true, error: null);
 
-      // Use POST instead of GET for consistency with login/register
-      final response = await _apiService.post('cl-auth', {
-        'action': 'profile',
-        'id': userId.toString(),
-      });
+      // Server expects GET with query parameters, not POST with body
+      // The server's profile action only reads from $_GET, not $_POST
+      final response =
+          await _apiService.get('cl-auth?action=profile&id=$userId');
 
       if (kIsWeb) {
         print('[AUTH] API response: $response');
