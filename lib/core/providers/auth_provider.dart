@@ -97,7 +97,7 @@ class AuthNotifier extends Notifier<AuthState> {
   // Load user profile
   Future<void> loadUser(int userId) async {
     try {
-      if (kDebugMode) {
+      if (kIsWeb) {
         print('[AUTH] loadUser called with userId: $userId');
       }
       state = state.copyWith(isLoading: true, error: null);
@@ -105,13 +105,13 @@ class AuthNotifier extends Notifier<AuthState> {
       final response =
           await _apiService.get('cl-auth?action=profile&id=$userId');
 
-      if (kDebugMode) {
+      if (kIsWeb) {
         print('[AUTH] API response: $response');
       }
 
       if (response['success'] == true) {
         final user = User.fromJson(response['data']);
-        if (kDebugMode) {
+        if (kIsWeb) {
           print('[AUTH] User loaded successfully: ${user.email}');
         }
         state = state.copyWith(
@@ -120,7 +120,7 @@ class AuthNotifier extends Notifier<AuthState> {
           isLoading: false,
         );
       } else {
-        if (kDebugMode) {
+        if (kIsWeb) {
           print('[AUTH] Failed to load user: ${response['message']}');
         }
         state = state.copyWith(
@@ -128,9 +128,10 @@ class AuthNotifier extends Notifier<AuthState> {
           isLoading: false,
         );
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print('[AUTH] Error loading user: $e');
+    } catch (e, stackTrace) {
+      if (kIsWeb) {
+        print('[AUTH] ERROR loading user: $e');
+        print('[AUTH] Stack trace: $stackTrace');
       }
       state = state.copyWith(
         error: e.toString(),
