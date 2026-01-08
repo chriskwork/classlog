@@ -19,7 +19,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: 3.40.0
+          cache: true
 
       # 의존성 패키지 설치
       - name: Install dependencies
