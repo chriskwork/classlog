@@ -25,6 +25,12 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      # .env 파일 생성 (GitHub Secrets 사용)
+      - name: Create .env file
+        run: |
+          echo "API_URL=${{ secrets.API_URL }}" > .env
+          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
+
       # 웹 빌드 (저장소 이름에 맞춰 --base-href를 수정)
       - name: Build Web
         run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
