@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:classlog/core/network/api_service.dart';
 import 'package:classlog/core/models/user.dart';
+import 'dart:convert';
 
 // Auth state
 class AuthState {
@@ -61,26 +62,42 @@ class AuthNotifier extends Notifier<AuthState> {
         await prefs.reload();
       }
 
-      // Try to get user_id
-      final userId = prefs.getInt('user_id');
-      final userEmail = prefs.getString('user_email');
+      // Try to get user data from localStorage (stored as JSON)
+      final userJson = prefs.getString('user_data');
 
       if (kIsWeb) {
         print('[AUTH] Retrieved from storage:');
-        print('[AUTH]   - user_id: $userId');
-        print('[AUTH]   - user_email: $userEmail');
+        print('[AUTH]   - user_data exists: ${userJson != null}');
         print('[AUTH]   - All keys: ${prefs.getKeys()}');
       }
 
-      if (userId != null) {
-        if (kIsWeb) {
-          print('[AUTH] User ID found ($userId), loading user profile...');
+      if (userJson != null) {
+        try {
+          // Parse user data from JSON
+          final userData = json.decode(userJson) as Map<String, dynamic>;
+          final user = User.fromJson(userData);
+
+          if (kIsWeb) {
+            print('[AUTH] User loaded from localStorage: ${user.email} (ID: ${user.id})');
+          }
+
+          state = state.copyWith(
+            user: user,
+            isAuthenticated: true,
+            isLoading: false,
+          );
+        } catch (e) {
+          if (kIsWeb) {
+            print('[AUTH] Error parsing user data: $e');
+          }
+          // Clear invalid data
+          await prefs.remove('user_data');
+          state = state.copyWith(isLoading: false);
         }
-        await loadUser(userId);
       } else {
         // No user found, stop loading
         if (kIsWeb) {
-          print('[AUTH] No user_id found, showing login screen');
+          print('[AUTH] No user_data found, showing login screen');
         }
         state = state.copyWith(isLoading: false);
       }
@@ -161,27 +178,25 @@ class AuthNotifier extends Notifier<AuthState> {
           print('[AUTH] User: ${user.email} (ID: ${user.id})');
         }
 
-        // Save user ID to local storage
+        // Save user data to local storage as JSON
         final prefs = await SharedPreferences.getInstance();
 
         if (kIsWeb) {
           print('[AUTH] Saving to SharedPreferences...');
         }
 
-        final saveResult = await prefs.setInt('user_id', user.id);
-        final emailSaveResult = await prefs.setString('user_email', user.email);
+        // Store complete user data as JSON string
+        final userJson = json.encode(response['data']['user']);
+        final saveResult = await prefs.setString('user_data', userJson);
 
         if (kIsWeb) {
           print('[AUTH] Save results:');
-          print('[AUTH]   - user_id (${user.id}): $saveResult');
-          print('[AUTH]   - user_email (${user.email}): $emailSaveResult');
+          print('[AUTH]   - user_data saved: $saveResult');
 
-          // Immediate verification without delay
-          final savedUserId = prefs.getInt('user_id');
-          final savedEmail = prefs.getString('user_email');
+          // Immediate verification
+          final savedUserJson = prefs.getString('user_data');
           print('[AUTH] Immediate verification:');
-          print('[AUTH]   - Retrieved user_id: $savedUserId');
-          print('[AUTH]   - Retrieved user_email: $savedEmail');
+          print('[AUTH]   - Retrieved user_data: ${savedUserJson != null}');
           print('[AUTH]   - All keys in storage: ${prefs.getKeys()}');
         }
 
@@ -229,19 +244,14 @@ class AuthNotifier extends Notifier<AuthState> {
       if (response['success'] == true) {
         final user = User.fromJson(response['data']['user']);
 
-        // Save user ID to local storage
+        // Save user data to local storage as JSON
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('user_id', user.id);
-        await prefs.setString('user_email', user.email);
+        final userJson = json.encode(response['data']['user']);
+        await prefs.setString('user_data', userJson);
 
-        if (kDebugMode) {
+        if (kIsWeb) {
           print('[AUTH] Register successful - user: ${user.email}');
-          print('[AUTH] Saved user_id: ${user.id}');
-
-          // Verify save
-          await Future.delayed(const Duration(milliseconds: 50));
-          final savedUserId = prefs.getInt('user_id');
-          print('[AUTH] Verification after register - user_id: $savedUserId');
+          print('[AUTH] Saved user_data to localStorage');
         }
 
         state = state.copyWith(
@@ -363,8 +373,11 @@ class AuthNotifier extends Notifier<AuthState> {
 
     // Clear local storage
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('user_id');
-    await prefs.remove('user_email');
+    await prefs.remove('user_data');
+
+    if (kIsWeb) {
+      print('[AUTH] Logout - cleared user_data from localStorage');
+    }
 
     state = AuthState();
   }
