@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ApiService {
   static final ApiService _instance = ApiService._internal();
@@ -20,20 +19,10 @@ class ApiService {
   // GET
   Future<dynamic> get(String endpoint) async {
     try {
-      final url = '$baseUrl/$endpoint';
-      if (kIsWeb) {
-        print('[API] GET request to: $url');
-      }
-
       final response = await http.get(
-        Uri.parse(url),
+        Uri.parse('$baseUrl/$endpoint'),
         headers: headers,
       );
-
-      if (kIsWeb) {
-        print('[API] Response status: ${response.statusCode}');
-        print('[API] Response body: ${response.body}');
-      }
 
       if (response.statusCode == 200) {
         return json.decode(response.body);

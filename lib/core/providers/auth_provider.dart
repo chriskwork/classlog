@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:classlog/core/network/api_service.dart';
@@ -47,29 +47,15 @@ class AuthNotifier extends Notifier<AuthState> {
   // Check if user is already logged in
   Future<void> _checkAuth() async {
     try {
-      // Always log on web for debugging
-      if (kIsWeb) {
-        print('[AUTH] ========== Starting _checkAuth ==========');
-        print('[AUTH] Platform: Web');
-      }
-
-      // Get SharedPreferences instance
       final prefs = await SharedPreferences.getInstance();
 
       // On web, reload to ensure we get the latest data from localStorage
       if (kIsWeb) {
-        print('[AUTH] Reloading from localStorage...');
         await prefs.reload();
       }
 
       // Try to get user data from localStorage (stored as JSON)
       final userJson = prefs.getString('user_data');
-
-      if (kIsWeb) {
-        print('[AUTH] Retrieved from storage:');
-        print('[AUTH]   - user_data exists: ${userJson != null}');
-        print('[AUTH]   - All keys: ${prefs.getKeys()}');
-      }
 
       if (userJson != null) {
         try {
@@ -77,81 +63,54 @@ class AuthNotifier extends Notifier<AuthState> {
           final userData = json.decode(userJson) as Map<String, dynamic>;
           final user = User.fromJson(userData);
 
-          if (kIsWeb) {
-            print('[AUTH] User loaded from localStorage: ${user.email} (ID: ${user.id})');
-          }
-
           state = state.copyWith(
             user: user,
             isAuthenticated: true,
             isLoading: false,
           );
         } catch (e) {
-          if (kIsWeb) {
-            print('[AUTH] Error parsing user data: $e');
-          }
           // Clear invalid data
           await prefs.remove('user_data');
           state = state.copyWith(isLoading: false);
         }
       } else {
         // No user found, stop loading
-        if (kIsWeb) {
-          print('[AUTH] No user_data found, showing login screen');
-        }
         state = state.copyWith(isLoading: false);
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       // Error checking auth, stop loading
-      if (kIsWeb) {
-        print('[AUTH] ERROR in _checkAuth: $e');
-        print('[AUTH] Stack trace: $stackTrace');
-      }
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
-  // Load user profile
+  // Load user profile from API (used after profile updates)
   Future<void> loadUser(int userId) async {
     try {
-      if (kIsWeb) {
-        print('[AUTH] loadUser called with userId: $userId');
-      }
       state = state.copyWith(isLoading: true, error: null);
 
-      // Server expects GET with query parameters, not POST with body
-      // The server's profile action only reads from $_GET, not $_POST
       final response =
           await _apiService.get('cl-auth?action=profile&id=$userId');
 
-      if (kIsWeb) {
-        print('[AUTH] API response: $response');
-      }
-
       if (response['success'] == true) {
         final user = User.fromJson(response['data']);
-        if (kIsWeb) {
-          print('[AUTH] User loaded successfully: ${user.email}');
-        }
+
+        // Update localStorage with latest user data
+        final prefs = await SharedPreferences.getInstance();
+        final userJson = json.encode(response['data']);
+        await prefs.setString('user_data', userJson);
+
         state = state.copyWith(
           user: user,
           isAuthenticated: true,
           isLoading: false,
         );
       } else {
-        if (kIsWeb) {
-          print('[AUTH] Failed to load user: ${response['message']}');
-        }
         state = state.copyWith(
           error: response['message'] ?? 'Error al cargar usuario',
           isLoading: false,
         );
       }
-    } catch (e, stackTrace) {
-      if (kIsWeb) {
-        print('[AUTH] ERROR loading user: $e');
-        print('[AUTH] Stack trace: $stackTrace');
-      }
+    } catch (e) {
       state = state.copyWith(
         error: e.toString(),
         isLoading: false,
@@ -173,32 +132,10 @@ class AuthNotifier extends Notifier<AuthState> {
       if (response['success'] == true) {
         final user = User.fromJson(response['data']['user']);
 
-        if (kIsWeb) {
-          print('[AUTH] ========== Login Successful ==========');
-          print('[AUTH] User: ${user.email} (ID: ${user.id})');
-        }
-
         // Save user data to local storage as JSON
         final prefs = await SharedPreferences.getInstance();
-
-        if (kIsWeb) {
-          print('[AUTH] Saving to SharedPreferences...');
-        }
-
-        // Store complete user data as JSON string
         final userJson = json.encode(response['data']['user']);
-        final saveResult = await prefs.setString('user_data', userJson);
-
-        if (kIsWeb) {
-          print('[AUTH] Save results:');
-          print('[AUTH]   - user_data saved: $saveResult');
-
-          // Immediate verification
-          final savedUserJson = prefs.getString('user_data');
-          print('[AUTH] Immediate verification:');
-          print('[AUTH]   - Retrieved user_data: ${savedUserJson != null}');
-          print('[AUTH]   - All keys in storage: ${prefs.getKeys()}');
-        }
+        await prefs.setString('user_data', userJson);
 
         state = state.copyWith(
           user: user,
@@ -248,11 +185,6 @@ class AuthNotifier extends Notifier<AuthState> {
         final prefs = await SharedPreferences.getInstance();
         final userJson = json.encode(response['data']['user']);
         await prefs.setString('user_data', userJson);
-
-        if (kIsWeb) {
-          print('[AUTH] Register successful - user: ${user.email}');
-          print('[AUTH] Saved user_data to localStorage');
-        }
 
         state = state.copyWith(
           user: user,
@@ -374,10 +306,6 @@ class AuthNotifier extends Notifier<AuthState> {
     // Clear local storage
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('user_data');
-
-    if (kIsWeb) {
-      print('[AUTH] Logout - cleared user_data from localStorage');
-    }
 
     state = AuthState();
   }
