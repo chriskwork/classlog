@@ -102,8 +102,11 @@ class AuthNotifier extends Notifier<AuthState> {
       }
       state = state.copyWith(isLoading: true, error: null);
 
-      final response =
-          await _apiService.get('cl-auth?action=profile&id=$userId');
+      // Use POST instead of GET for consistency with login/register
+      final response = await _apiService.post('cl-auth', {
+        'action': 'profile',
+        'id': userId.toString(),
+      });
 
       if (kIsWeb) {
         print('[AUTH] API response: $response');
