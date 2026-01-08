@@ -13,6 +13,7 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  // controllers
   final _formKey = GlobalKey<FormState>();
   final _emailContoller = TextEditingController();
   final _passwordController = TextEditingController();
@@ -30,17 +31,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     // debugPrint('registracion disposed');
     super.dispose();
   }
-
-  // Future<void> _onSubmit() async {
-  //   if(!_formKey.currentState!.validate()){
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Por favor, revisa los campos del formulario')),
-  //     );
-  //     return;
-  //   }
-  // }
-
-  // setState(() => _isLoading = true);
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +154,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 : () async {
                                     if (_formKey.currentState!.validate()) {
                                       final navigator = Navigator.of(context);
-                                      final messenger = ScaffoldMessenger.of(context);
+                                      final messenger =
+                                          ScaffoldMessenger.of(context);
 
                                       final success = await ref
                                           .read(authProvider.notifier)
@@ -172,7 +163,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                             email: _emailContoller.text.trim(),
                                             password: _passwordController.text,
                                             nombre: _nameController.text.trim(),
-                                            apellidos: _lastNameController.text.trim(),
+                                            apellidos:
+                                                _lastNameController.text.trim(),
                                           );
 
                                       if (!mounted) return;
@@ -184,10 +176,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                           ),
                                         );
                                       } else {
-                                        final error = ref.read(authProvider).error;
+                                        final error =
+                                            ref.read(authProvider).error;
                                         messenger.showSnackBar(
                                           SnackBar(
-                                            content: Text(error ?? 'Error al registrar'),
+                                            content: Text(
+                                                error ?? 'Error al registrar'),
                                             backgroundColor: Colors.red,
                                           ),
                                         );

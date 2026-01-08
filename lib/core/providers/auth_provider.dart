@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:classlog/core/network/api_service.dart';
@@ -49,11 +49,22 @@ class AuthNotifier extends Notifier<AuthState> {
       if (kDebugMode) {
         print('[AUTH] Starting _checkAuth');
       }
+
+      // Add a small delay to ensure SharedPreferences is fully initialized on web
+      await Future.delayed(const Duration(milliseconds: 100));
+
       final prefs = await SharedPreferences.getInstance();
+
+      // Force reload from storage on web
+      if (kIsWeb) {
+        await prefs.reload();
+      }
+
       final userId = prefs.getInt('user_id');
 
       if (kDebugMode) {
         print('[AUTH] Retrieved user_id from SharedPreferences: $userId');
+        print('[AUTH] All keys in SharedPreferences: ${prefs.getKeys()}');
       }
 
       if (userId != null) {
@@ -141,12 +152,18 @@ class AuthNotifier extends Notifier<AuthState> {
         final saveResult = await prefs.setInt('user_id', user.id);
         await prefs.setString('user_email', user.email);
 
+        // Force commit to storage on web
+        if (kIsWeb) {
+          await prefs.reload();
+        }
+
         if (kDebugMode) {
           print('[AUTH] Login successful - user: ${user.email}');
           print('[AUTH] Saved user_id to SharedPreferences: ${user.id}, result: $saveResult');
           // Verify it was saved
           final savedUserId = prefs.getInt('user_id');
           print('[AUTH] Verification - Retrieved user_id: $savedUserId');
+          print('[AUTH] All keys after save: ${prefs.getKeys()}');
         }
 
         state = state.copyWith(
@@ -197,6 +214,16 @@ class AuthNotifier extends Notifier<AuthState> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setInt('user_id', user.id);
         await prefs.setString('user_email', user.email);
+
+        // Force commit to storage on web
+        if (kIsWeb) {
+          await prefs.reload();
+        }
+
+        if (kDebugMode) {
+          print('[AUTH] Register successful - user: ${user.email}');
+          print('[AUTH] Saved user_id: ${user.id}');
+        }
 
         state = state.copyWith(
           user: user,

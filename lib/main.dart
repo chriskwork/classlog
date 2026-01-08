@@ -5,9 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize SharedPreferences before app starts
+  await SharedPreferences.getInstance();
+
   await dotenv.load(fileName: ".env"); // guardado URL, KEY
+
   runApp(const ProviderScope(
     child: ClassLogApp(),
   ));
@@ -45,10 +52,10 @@ class ClassLogApp extends StatelessWidget {
           ),
         ),
         builder: (context, child) {
-          // 웹에서 최대 너비 제한 (모바일 뷰포트처럼)
           return Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600), // 원하는 최대 너비
+              constraints:
+                  BoxConstraints(maxWidth: 600), // Max width for web page
               child: child!,
             ),
           );
