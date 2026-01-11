@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
-  // String → IconData
+  // String → IconData TODO: more icons & add input option in FS
   IconData _getIconData(String iconName) {
     switch (iconName) {
       case 'video_stable':

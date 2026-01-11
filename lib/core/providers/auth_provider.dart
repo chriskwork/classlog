@@ -41,25 +41,24 @@ class AuthNotifier extends Notifier<AuthState> {
   @override
   AuthState build() {
     _checkAuth();
-    return AuthState(isLoading: true); // Start with loading state
+    return AuthState(isLoading: true);
   }
 
-  // Check if user is already logged in
+  // Check user isLogin?
   Future<void> _checkAuth() async {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      // On web, reload to ensure we get the latest data from localStorage
+      // cargar user data para web app
       if (kIsWeb) {
         await prefs.reload();
       }
 
-      // Try to get user data from localStorage (stored as JSON)
+      // datos de localStorage
       final userJson = prefs.getString('user_data');
 
       if (userJson != null) {
         try {
-          // Parse user data from JSON
           final userData = json.decode(userJson) as Map<String, dynamic>;
           final user = User.fromJson(userData);
 
@@ -69,21 +68,18 @@ class AuthNotifier extends Notifier<AuthState> {
             isLoading: false,
           );
         } catch (e) {
-          // Clear invalid data
           await prefs.remove('user_data');
           state = state.copyWith(isLoading: false);
         }
       } else {
-        // No user found, stop loading
         state = state.copyWith(isLoading: false);
       }
     } catch (e) {
-      // Error checking auth, stop loading
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
-  // Load user profile from API (used after profile updates)
+  // cargar datos de API
   Future<void> loadUser(int userId) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
@@ -94,7 +90,7 @@ class AuthNotifier extends Notifier<AuthState> {
       if (response['success'] == true) {
         final user = User.fromJson(response['data']);
 
-        // Update localStorage with latest user data
+        // actualizar localstorage
         final prefs = await SharedPreferences.getInstance();
         final userJson = json.encode(response['data']);
         await prefs.setString('user_data', userJson);
@@ -132,7 +128,7 @@ class AuthNotifier extends Notifier<AuthState> {
       if (response['success'] == true) {
         final user = User.fromJson(response['data']['user']);
 
-        // Save user data to local storage as JSON
+        // guardar user datos en localstorage
         final prefs = await SharedPreferences.getInstance();
         final userJson = json.encode(response['data']['user']);
         await prefs.setString('user_data', userJson);
@@ -160,7 +156,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  // Register
+  // Registrar
   Future<bool> register({
     required String email,
     required String password,
@@ -181,7 +177,6 @@ class AuthNotifier extends Notifier<AuthState> {
       if (response['success'] == true) {
         final user = User.fromJson(response['data']['user']);
 
-        // Save user data to local storage as JSON
         final prefs = await SharedPreferences.getInstance();
         final userJson = json.encode(response['data']['user']);
         await prefs.setString('user_data', userJson);
@@ -209,7 +204,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  // Update profile
+  // Update
   Future<bool> updateProfile({
     required String nombre,
     required String apellidos,
@@ -253,7 +248,7 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  // Update security (email/password)
+  // Update email/password
   Future<bool> updateSecurity({
     String? email,
     String? password,
@@ -271,7 +266,6 @@ class AuthNotifier extends Notifier<AuthState> {
       });
 
       if (response['success'] == true) {
-        // Reload user data
         await loadUser(state.user!.id);
 
         return true;
@@ -300,10 +294,10 @@ class AuthNotifier extends Notifier<AuthState> {
         });
       }
     } catch (e) {
-      // Ignore errors on logout
+      // logout
     }
 
-    // Clear local storage
+    // vaciar local storage
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('user_data');
 

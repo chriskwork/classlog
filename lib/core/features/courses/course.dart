@@ -52,7 +52,7 @@ class Course {
     }
   }
 
-  // Convert hex color to Color
+  // hex -> Color
   Color get colorValue {
     if (color == null) return Colors.blue;
     try {
@@ -63,40 +63,43 @@ class Course {
     }
   }
 
-  // Get light version of color for background
+  // light bg color
   Color get lightColorValue {
     final c = colorValue;
     return c.withValues(alpha: 0.1);
   }
 
-  // Format time range
+  // time format
   String get timeRange {
     if (timeStart == null || timeEnd == null) return '';
     return '$timeStart - $timeEnd';
   }
 
-  // Convert day letters to day indices (L=0, M=1, X=2, J=3, V=4)
+  // L=0, M=1, X=2, J=3, V=4
   List<int> get dayIndices {
-    return days.map((day) {
-      switch (day) {
-        case 'L':
-          return 0;
-        case 'M':
-          return 1;
-        case 'X':
-          return 2;
-        case 'J':
-          return 3;
-        case 'V':
-          return 4;
-        default:
-          return -1;
-      }
-    }).where((i) => i >= 0).toList();
+    return days
+        .map((day) {
+          switch (day) {
+            case 'L':
+              return 0;
+            case 'M':
+              return 1;
+            case 'X':
+              return 2;
+            case 'J':
+              return 3;
+            case 'V':
+              return 4;
+            default:
+              return -1;
+          }
+        })
+        .where((i) => i >= 0)
+        .toList();
   }
 
   factory Course.fromJson(Map<String, dynamic> json) {
-    // Parse days from comma-separated string
+    // Parse 'days'
     List<String> parseDays(String? daysStr) {
       if (daysStr == null || daysStr.isEmpty) return [];
       return daysStr.split(',').map((d) => d.trim()).toList();
@@ -113,8 +116,10 @@ class Course {
       timeStart: json['hora_inicio'],
       timeEnd: json['hora_fin'],
       aula: json['aula'],
-      attendancePercentage: int.parse(json['asistencia_percentage']?.toString() ?? '0'),
-      attendancePresent: int.parse(json['asistencia_presente']?.toString() ?? '0'),
+      attendancePercentage:
+          int.parse(json['asistencia_percentage']?.toString() ?? '0'),
+      attendancePresent:
+          int.parse(json['asistencia_presente']?.toString() ?? '0'),
       attendanceTotal: int.parse(json['asistencia_total']?.toString() ?? '0'),
     );
   }

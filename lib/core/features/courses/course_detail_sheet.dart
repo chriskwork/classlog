@@ -84,18 +84,19 @@ class CourseDetailSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 정보 섹션
-                    _buildInfoRow(
-                        context, Icons.person, 'Profesor', course.professorName ?? 'N/A'),
+                    // info
+                    _buildInfoRow(context, Icons.person, 'Profesor',
+                        course.professorName ?? 'N/A'),
                     const SizedBox(height: 12),
-                    _buildInfoRow(context, Icons.room, 'Aula', course.aula ?? 'N/A'),
+                    _buildInfoRow(
+                        context, Icons.room, 'Aula', course.aula ?? 'N/A'),
                     const SizedBox(height: 12),
                     _buildInfoRow(context, Icons.check_circle, 'Asistencia',
                         '${course.attendancePercentage}%'),
 
                     const SizedBox(height: 24),
 
-                    // 출석률 프로그레스 바
+                    // profress bar (asistencia)
                     Text(
                       'Progreso de Asistencia',
                       style: Theme.of(context).textTheme.titleMedium,
@@ -107,7 +108,9 @@ class CourseDetailSheet extends StatelessWidget {
                           : 0.0,
                       backgroundColor: Colors.grey[200],
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        course.attendancePercentage >= 80 ? Colors.green : Colors.orange,
+                        course.attendancePercentage >= 80
+                            ? Colors.green
+                            : Colors.orange,
                       ),
                       minHeight: 8,
                       borderRadius: BorderRadius.circular(4),

@@ -20,7 +20,7 @@ class _ConfigSecurityState extends ConsumerState<ConfigSecurity> {
   @override
   void initState() {
     super.initState();
-    // Load current email
+    // current email
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final user = ref.read(authProvider).user;
       if (user != null) {
@@ -73,11 +73,14 @@ class _ConfigSecurityState extends ConsumerState<ConfigSecurity> {
 
                         // Password
                         CustomFormField(
-                          labelText: 'Nueva Contraseña (opcional, mínimo 6 caracteres)',
+                          labelText:
+                              'Nueva Contraseña (opcional, mínimo 6 caracteres)',
                           controller: _passwordController,
                           obscureText: true,
                           validator: (value) {
-                            if (value != null && value.isNotEmpty && value.length < 6) {
+                            if (value != null &&
+                                value.isNotEmpty &&
+                                value.length < 6) {
                               return 'Mínimo 6 caracteres';
                             }
                             return null;
@@ -105,7 +108,7 @@ class _ConfigSecurityState extends ConsumerState<ConfigSecurity> {
                           height: Sizes.size4,
                         ),
 
-                        // Save button
+                        // Save
                         SizedBox(
                           width: double.infinity,
                           height: 48,
@@ -115,18 +118,24 @@ class _ConfigSecurityState extends ConsumerState<ConfigSecurity> {
                                 : () async {
                                     if (_formKey.currentState!.validate()) {
                                       final navigator = Navigator.of(context);
-                                      final messenger = ScaffoldMessenger.of(context);
+                                      final messenger =
+                                          ScaffoldMessenger.of(context);
 
-                                      final currentUser = ref.read(authProvider).user;
+                                      final currentUser =
+                                          ref.read(authProvider).user;
                                       if (currentUser == null) return;
 
-                                      final emailChanged = _emailContoller.text.trim() != currentUser.email;
-                                      final passwordChanged = _passwordController.text.isNotEmpty;
+                                      final emailChanged =
+                                          _emailContoller.text.trim() !=
+                                              currentUser.email;
+                                      final passwordChanged =
+                                          _passwordController.text.isNotEmpty;
 
                                       if (!emailChanged && !passwordChanged) {
                                         messenger.showSnackBar(
                                           SnackBar(
-                                            content: Text('No hay cambios para guardar'),
+                                            content: Text(
+                                                'No hay cambios para guardar'),
                                             backgroundColor: Colors.orange,
                                           ),
                                         );
@@ -136,8 +145,12 @@ class _ConfigSecurityState extends ConsumerState<ConfigSecurity> {
                                       final success = await ref
                                           .read(authProvider.notifier)
                                           .updateSecurity(
-                                            email: emailChanged ? _emailContoller.text.trim() : null,
-                                            password: passwordChanged ? _passwordController.text : null,
+                                            email: emailChanged
+                                                ? _emailContoller.text.trim()
+                                                : null,
+                                            password: passwordChanged
+                                                ? _passwordController.text
+                                                : null,
                                           );
 
                                       if (!mounted) return;
@@ -145,16 +158,19 @@ class _ConfigSecurityState extends ConsumerState<ConfigSecurity> {
                                       if (success) {
                                         messenger.showSnackBar(
                                           SnackBar(
-                                            content: Text('Seguridad actualizada'),
+                                            content:
+                                                Text('Seguridad actualizada'),
                                             backgroundColor: Colors.green,
                                           ),
                                         );
                                         navigator.pop();
                                       } else {
-                                        final error = ref.read(authProvider).error;
+                                        final error =
+                                            ref.read(authProvider).error;
                                         messenger.showSnackBar(
                                           SnackBar(
-                                            content: Text(error ?? 'Error al actualizar'),
+                                            content: Text(
+                                                error ?? 'Error al actualizar'),
                                             backgroundColor: Colors.red,
                                           ),
                                         );

@@ -7,9 +7,11 @@ class ApiService {
   factory ApiService() => _instance;
   ApiService._internal();
 
-  // Use API_URL for web (production), API_LOCAL_URL for other platforms (development)
-  final String baseUrl = dotenv.env['API_URL'] ?? dotenv.env['API_LOCAL_URL'] ?? '';
-  final String apiKey = dotenv.env['API_KEY'] ?? dotenv.env['API_LOCAL_KEY'] ?? '';
+  // API_URL para web, API_LOCAL_URL para local server
+  final String baseUrl =
+      dotenv.env['API_URL'] ?? dotenv.env['API_LOCAL_URL'] ?? '';
+  final String apiKey =
+      dotenv.env['API_KEY'] ?? dotenv.env['API_LOCAL_KEY'] ?? '';
 
   Map<String, String> get headers => {
         'Content-Type': 'application/json',

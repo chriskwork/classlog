@@ -28,7 +28,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     _confirmPasswordController.dispose();
     _nameController.dispose();
     _lastNameController.dispose();
-    // debugPrint('registracion disposed');
     super.dispose();
   }
 

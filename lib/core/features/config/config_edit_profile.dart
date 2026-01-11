@@ -21,7 +21,7 @@ class _ConfigEditProfileState extends ConsumerState<ConfigEditProfile> {
   @override
   void initState() {
     super.initState();
-    // Load current user data
+    // cargar datos de user
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final user = ref.read(authProvider).user;
       if (user != null) {
@@ -122,7 +122,7 @@ class _ConfigEditProfileState extends ConsumerState<ConfigEditProfile> {
                           height: Sizes.size4,
                         ),
 
-                        // Save button
+                        // Save
                         SizedBox(
                           width: double.infinity,
                           height: 48,
@@ -132,16 +132,22 @@ class _ConfigEditProfileState extends ConsumerState<ConfigEditProfile> {
                                 : () async {
                                     if (_formKey.currentState!.validate()) {
                                       final navigator = Navigator.of(context);
-                                      final messenger = ScaffoldMessenger.of(context);
+                                      final messenger =
+                                          ScaffoldMessenger.of(context);
 
                                       final success = await ref
                                           .read(authProvider.notifier)
                                           .updateProfile(
-                                            nombre: _nombreContoller.text.trim(),
-                                            apellidos: _apellidosController.text.trim(),
-                                            telefono: _telefonoController.text.trim().isEmpty
+                                            nombre:
+                                                _nombreContoller.text.trim(),
+                                            apellidos: _apellidosController.text
+                                                .trim(),
+                                            telefono: _telefonoController.text
+                                                    .trim()
+                                                    .isEmpty
                                                 ? null
-                                                : _telefonoController.text.trim(),
+                                                : _telefonoController.text
+                                                    .trim(),
                                           );
 
                                       if (!mounted) return;
@@ -155,10 +161,12 @@ class _ConfigEditProfileState extends ConsumerState<ConfigEditProfile> {
                                         );
                                         navigator.pop();
                                       } else {
-                                        final error = ref.read(authProvider).error;
+                                        final error =
+                                            ref.read(authProvider).error;
                                         messenger.showSnackBar(
                                           SnackBar(
-                                            content: Text(error ?? 'Error al actualizar'),
+                                            content: Text(
+                                                error ?? 'Error al actualizar'),
                                             backgroundColor: Colors.red,
                                           ),
                                         );

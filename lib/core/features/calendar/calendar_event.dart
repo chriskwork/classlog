@@ -29,7 +29,7 @@ class CalendarEvent {
   });
 
   factory CalendarEvent.fromJson(Map<String, dynamic> json) {
-    // Parse event type - handle different formats from DB
+    // parse event type
     EventType parseEventType(String tipo) {
       switch (tipo.toLowerCase()) {
         case 'examen':
@@ -43,7 +43,7 @@ class CalendarEvent {
         case 'asistencia':
           return EventType.asistencia;
         default:
-          return EventType.examen; // default fallback
+          return EventType.examen;
       }
     }
 

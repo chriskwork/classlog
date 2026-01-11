@@ -17,7 +17,7 @@ class MyCoursesScreen extends ConsumerStatefulWidget {
 class _MyCoursesScreenState extends ConsumerState<MyCoursesScreen> {
   int selectedDay = 0; // Dias..
 
-  // Filter courses by selected day
+  // filter cursos
   List<Course> filterCoursesByDay(List<Course> courses, int dayIndex) {
     return courses
         .where((course) => course.dayIndices.contains(dayIndex))

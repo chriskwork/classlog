@@ -23,7 +23,7 @@ class ConfigScreen extends ConsumerWidget {
             height: 20,
           ),
 
-          // Profile image
+          // perfil img
           Center(
               child: Stack(
             children: [
@@ -48,7 +48,7 @@ class ConfigScreen extends ConsumerWidget {
                 ),
               ),
 
-              // Edit icon
+              // mini edit icon
               Positioned(
                 right: 0,
                 bottom: 0,
@@ -79,7 +79,7 @@ class ConfigScreen extends ConsumerWidget {
 
           const SizedBox(height: 40),
 
-          // Config options
+          // config
           Card(
             margin: EdgeInsets.all(0),
             shape: RoundedRectangleBorder(
@@ -89,7 +89,7 @@ class ConfigScreen extends ConsumerWidget {
             elevation: 0,
             child: Column(
               children: [
-                // Perfil
+                // perfil part
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   visualDensity: VisualDensity.compact,
@@ -111,7 +111,7 @@ class ConfigScreen extends ConsumerWidget {
 
                 const Divider(height: 1, color: lineColor),
 
-                // Seguridad
+                // seguridad part
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   visualDensity: VisualDensity.compact,
@@ -136,7 +136,7 @@ class ConfigScreen extends ConsumerWidget {
 
           const SizedBox(height: 40),
 
-          // Log out button
+          // logout
           SizedBox(
             width: double.infinity,
             height: 40,
@@ -167,18 +167,20 @@ class ConfigScreen extends ConsumerWidget {
           ),
 
           const SizedBox(height: Gaps.lg),
-          // Eliminate account
+
+          // eliminar cuenta
           SizedBox(
             width: double.infinity,
             height: 40,
             child: FilledButton(
               onPressed: () async {
-                // Show confirmation dialog
+                // confirmation dialog
                 final confirmed = await showDialog<bool>(
                   context: context,
                   builder: (context) => AlertDialog(
                     title: Text('Eliminar Cuenta'),
-                    content: Text('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.'),
+                    content: Text(
+                        '¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.'),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context, false),
@@ -196,7 +198,8 @@ class ConfigScreen extends ConsumerWidget {
                 );
 
                 if (confirmed == true) {
-                  final success = await ref.read(authProvider.notifier).deleteAccount();
+                  final success =
+                      await ref.read(authProvider.notifier).deleteAccount();
                   if (success && context.mounted) {
                     Navigator.pushAndRemoveUntil(
                       context,

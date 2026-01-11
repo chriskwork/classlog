@@ -11,7 +11,6 @@ class AuthWrapper extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authProvider);
 
-    // Show loading screen while checking authentication
     if (authState.isLoading) {
       return const Scaffold(
         body: Center(
@@ -20,12 +19,11 @@ class AuthWrapper extends ConsumerWidget {
       );
     }
 
-    // If authenticated, show home screen
+    // auth ok -> homescreen
     if (authState.isAuthenticated && authState.user != null) {
       return HomeScreen();
     }
 
-    // Otherwise, show login screen
     return const LoginScreen();
   }
 }
