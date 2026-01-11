@@ -25,21 +25,25 @@ class CustomBottomNavBar extends StatelessWidget {
         children: [
           _NavItem(
             icon: FeatherIcons.home,
+            menuName: "Inicio",
             isSelected: currentIndex == 0,
             onTap: () => onTap(0),
           ),
           _NavItem(
             icon: FeatherIcons.calendar,
+            menuName: "Calendario",
             isSelected: currentIndex == 1,
             onTap: () => onTap(1),
           ),
           _NavItem(
             icon: FeatherIcons.book,
+            menuName: "Mis Cursos",
             isSelected: currentIndex == 2,
             onTap: () => onTap(2),
           ),
           _NavItem(
             icon: FeatherIcons.settings,
+            menuName: "Config.",
             isSelected: currentIndex == 3,
             onTap: () => onTap(3),
           ),
@@ -51,11 +55,13 @@ class CustomBottomNavBar extends StatelessWidget {
 
 class _NavItem extends StatelessWidget {
   final IconData icon;
+  final String menuName;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _NavItem({
     required this.icon,
+    required this.menuName,
     required this.isSelected,
     required this.onTap,
   });
@@ -70,10 +76,25 @@ class _NavItem extends StatelessWidget {
           horizontal: Gaps.sm,
           vertical: Gaps.xs,
         ),
-        child: Icon(
-          icon,
-          size: 24,
-          color: isSelected ? Colors.white : mainLightColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 28,
+              color: isSelected ? Colors.white : mainLightColor,
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              menuName,
+              style: TextStyle(
+                fontSize: 12,
+                color: isSelected ? Colors.white : mainLightColor,
+              ),
+            )
+          ],
         ),
       ),
     );
