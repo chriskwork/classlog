@@ -2,6 +2,8 @@ import 'package:classlog/core/theme/app_colors.dart';
 import 'package:classlog/core/theme/app_settings.dart';
 import 'package:flutter/material.dart';
 
+// Card de curso -> clases de hoy, mis cursos
+// contiene icon, nombre de clase, horario etc
 class CourseCard extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
@@ -58,7 +60,7 @@ class CourseCard extends StatelessWidget {
                   maxLines: 1,
                 ),
                 Text(
-                  time, // DB - time here
+                  time, // DB - horario
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: secondaryColor,
                       ),

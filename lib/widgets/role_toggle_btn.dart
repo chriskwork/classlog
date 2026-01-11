@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:classlog/core/theme/app_settings.dart';
 
+// 📌 Role function para la siguiente version..
+// (profesor->puede pasar lista etc.)
 class RoleSegmentToggle extends StatelessWidget {
   final int selectedIndex; // 0 = Estudiante, 1 = Profesor
   final ValueChanged<int> onChanged;
