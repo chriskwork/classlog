@@ -16,6 +16,7 @@ void main() async {
   // guardado URL, KEY
   await dotenv.load(fileName: ".env");
 
+  // escuchar el estado de toda app
   runApp(const ProviderScope(
     child: ClassLogApp(),
   ));
