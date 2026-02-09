@@ -59,7 +59,8 @@ class ClassLogApp extends StatelessWidget {
           return Center(
             child: ConstrainedBox(
               constraints:
-                  BoxConstraints(maxWidth: 600), // Max width for web page
+                  // max width para web page
+                  BoxConstraints(maxWidth: 600),
               child: child!,
             ),
           );
