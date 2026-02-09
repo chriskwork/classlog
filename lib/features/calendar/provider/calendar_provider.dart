@@ -7,24 +7,21 @@ final calendarEventsProvider =
     FutureProvider.autoDispose<List<CalendarEvent>>((ref) async {
   final apiService = ApiService();
 
-  // Get the logged-in user's ID
+  // check id de usuario actual
   final authState = ref.watch(authProvider);
   final userId = authState.user?.id;
 
-  // If no user is logged in, return empty list
   if (userId == null) {
     return [];
   }
 
-  // API call to get calendar events for the logged-in user
-  final response = await apiService.get('cl-student?action=calendar&id=$userId');
+  // obtener datos de eventos para usuario actual
+  final response =
+      await apiService.get('cl-student?action=calendar&id=$userId');
 
-  // Parse the response
   if (response['success'] == true && response['data'] != null) {
     final List<dynamic> eventsJson = response['data'];
-    return eventsJson
-        .map((json) => CalendarEvent.fromJson(json))
-        .toList();
+    return eventsJson.map((json) => CalendarEvent.fromJson(json)).toList();
   }
 
   return [];
