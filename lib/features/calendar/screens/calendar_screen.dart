@@ -24,7 +24,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     _selectedDay = _focusedDay;
   }
 
-  // Get events of selected tag
+  // mostrar eventos segun el 'tag'
   List<CalendarEvent> _getEventsForDay(
       DateTime day, List<CalendarEvent> allEvents) {
     return allEvents.where((event) {
@@ -87,7 +87,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     );
   }
 
-  // ////////////////////////////////////////////////////////////// widgets
+  // ////////////////////widgets
   Widget _buildTagSelector() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -169,7 +169,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
       eventLoader: (day) => _getEventsForDay(day, events),
       startingDayOfWeek: StartingDayOfWeek.monday,
 
-      // Header
+      // header
       headerStyle: const HeaderStyle(
         formatButtonVisible: false,
         titleCentered: true,
@@ -181,7 +181,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         rightChevronIcon: Icon(Icons.chevron_right, color: Colors.black),
       ),
 
-      // Weeks
+      // semanas
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle(
           color: Colors.grey.shade600,
@@ -195,7 +195,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         ),
       ),
 
-      // Days
+      // dias
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle(color: Colors.grey.shade300),
@@ -228,7 +228,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         markerMargin: const EdgeInsets.symmetric(horizontal: 1),
       ),
 
-      // Dot markers
+      // puntos, si hay evento
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, date, events) {
           if (events.isEmpty) return null;
@@ -311,7 +311,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
       ),
       child: Row(
         children: [
-          // Icon
+          // icon
           Container(
             width: 40,
             height: 40,
@@ -327,7 +327,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
           ),
           const SizedBox(width: 12),
 
-          // Text
+          // texto
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -352,7 +352,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
             ),
           ),
 
-          // Status badge(solo cuando asistancia)
+          // chip estado (solo cuando asistancia)
           if (event.type == EventType.asistencia && event.status != null)
             _buildStatusBadge(event.status!),
         ],
