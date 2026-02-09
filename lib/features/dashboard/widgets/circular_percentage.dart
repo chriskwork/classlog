@@ -3,7 +3,7 @@ import 'package:classlog/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // Widget de circulo que demuestra % de asistencia
-// Porcentaje de asistencia: (Clases asistidas / Total de clases a la fecha) * 100
+// Porcentaje de asistencia: (clases asistidas / total de clases a la fecha) * 100
 // en Dashboard, demuertra % de todas clases que asistó el usuario,
 class CircularPercentage extends StatefulWidget {
   final int percentage;

@@ -31,7 +31,7 @@ class Course {
     this.attendanceTotal = 0,
   });
 
-  // Convert icon name to IconData
+  // icons de cursos (TODO: añadir opcion en el FS)
   IconData get iconData {
     switch (icon?.toLowerCase()) {
       case 'calculator':
