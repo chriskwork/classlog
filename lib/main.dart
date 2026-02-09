@@ -10,10 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize SharedPreferences before app starts
+  // check si hay dato de login
   await SharedPreferences.getInstance();
 
-  await dotenv.load(fileName: ".env"); // guardado URL, KEY
+  // guardado URL, KEY
+  await dotenv.load(fileName: ".env");
 
   runApp(const ProviderScope(
     child: ClassLogApp(),
@@ -30,8 +31,10 @@ class ClassLogApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ClassLog',
         theme: ThemeData(
-          colorScheme: appColorScheme(), // custom color theme
-          textTheme: appTextTheme(), // custom font theme
+          // custom color theme
+          colorScheme: appColorScheme(),
+          // custom font theme
+          textTheme: appTextTheme(),
           appBarTheme: AppBarThemeData(
             centerTitle: true,
             backgroundColor: bgLightColor,
