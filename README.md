@@ -2,8 +2,10 @@
 
 > Student learning tracker for attendance, grades,
 > and course management
+> Final project for the Multiplatform Application Development (DAM) course.
 
-Un sistema de seguimiento académico para estudiantes.
+> Sistema de seguimiento académico para estudiantes.
+> Último proyecto para la asignatura de DAM.
 
 # Aprendizajes del Proceso de Desarrollo
 
@@ -22,4 +24,4 @@ Debo admitir que, debido a circunstancias personales y falta de tiempo disponibl
 - El uso de almacenamiento local
 - Cómo compilar la aplicación para web, probarla y desplegarla en GitHub, entre otros
 
-Considero que el valor real de este proyecto no radica tanto en la calidad del producto final, sino en el **proceso de aprendizaje y la comprensión de cómo hacer mejor las cosas en el futuro**.
+Gracias a esto, aprendí muchas cosas nuevas que no hubiera podido descubrir por mí solo, ampliando significativamente mi base de conocimientos.
