@@ -47,6 +47,3 @@ app.*.map.json
 # env for token and key
 .env
 *.env
-
-# claude code
-.claude
