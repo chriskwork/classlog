@@ -47,3 +47,5 @@ app.*.map.json
 # env for token and key
 .env
 *.env
+
+workflow.md
