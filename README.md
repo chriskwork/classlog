@@ -129,3 +129,8 @@ lib/
 - **IndexedStack**: conserva el estado de cada pestaña (posición de scroll, datos cargados) sin recrear los widgets.
 - **FutureProvider.autoDispose**: libera memoria al salir de la pantalla y garantiza datos frescos al volver.
 - **SharedPreferences**: persiste la sesión del usuario entre reinicios de la app.
+
+test account:
+
+ID: test2@gmail.com
+PW: 123456789
