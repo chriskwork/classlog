@@ -167,7 +167,7 @@ class DashboardScreen extends ConsumerWidget {
                           return CourseCard(
                             courseName: schedule.cursoNombre,
                             time:
-                                '${schedule.horaInicio} - ${schedule.horaFin}',
+                                '${schedule.horaInicio.substring(0, 5)} - ${schedule.horaFin.substring(0, 5)}',
                             icon: _getIconData(schedule.icono),
                             iconColor: _hexToColor(schedule.color),
                             iconBgColor: _hexToColor(schedule.color)

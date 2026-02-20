@@ -72,7 +72,9 @@ class Course {
   // time format
   String get timeRange {
     if (timeStart == null || timeEnd == null) return '';
-    return '$timeStart - $timeEnd';
+    final start = timeStart!.length >= 5 ? timeStart!.substring(0, 5) : timeStart!;
+    final end = timeEnd!.length >= 5 ? timeEnd!.substring(0, 5) : timeEnd!;
+    return '$start - $end';
   }
 
   // L=0, M=1, X=2, J=3, V=4
