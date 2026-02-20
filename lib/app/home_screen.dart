@@ -1,3 +1,4 @@
+import 'package:classlog/app/theme/app_spacing.dart';
 import 'package:classlog/features/calendar/screens/calendar_screen.dart';
 import 'package:classlog/features/config/screens/config_screen.dart';
 import 'package:classlog/features/dashboard/screens/dashboard_screen.dart';
@@ -22,34 +23,52 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (_currentIndex) {
       case 0:
         return AppBar(
+          actionsPadding: EdgeInsets.symmetric(horizontal: Gaps.md),
           title: Text(
             'Dashboard',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
-          // actions: [
-          //   AppBarNotification(),
-          // ], // 📌 para mas tarde.
+          scrolledUnderElevation: 0,
+          actions: [
+            // AppBarNotification(),
+            Icon(Icons.menu),
+          ], // 📌 para mas tarde.
         );
       case 1:
         return AppBar(
+          actionsPadding: EdgeInsets.symmetric(horizontal: Gaps.md),
           title: Text(
             'Calendario',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
+          scrolledUnderElevation: 0,
+          actions: [
+            Icon(Icons.menu),
+          ],
         );
       case 2:
         return AppBar(
+          actionsPadding: EdgeInsets.symmetric(horizontal: Gaps.md),
           title: Text(
             'Mis Cursos',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
+          scrolledUnderElevation: 0,
+          actions: [
+            Icon(Icons.menu),
+          ],
         );
       case 3:
         return AppBar(
+          actionsPadding: EdgeInsets.symmetric(horizontal: Gaps.md),
           title: Text(
             'Configuración',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
+          scrolledUnderElevation: 0,
+          actions: [
+            Icon(Icons.menu),
+          ],
         );
 
       default:
